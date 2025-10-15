@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LMS Project - Stylish Design</title>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Poppins:wght@400;600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ===== UNIFORM FONT FALLBACK ===== */
+body, input, select, textarea, button, table { font-family: 'Poppins', sans-serif; }
+/* ===== BODY ===== */
+body { margin: 0; }
+
+/* ===== HEADER ===== */
+header {
+    background: linear-gradient(90deg, #4b6cb7, #182848);
+    color: white;
+    text-align: center;
+    padding: 25px;
+    font-size: 28px;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* ===== LOGIN / REGISTER ===== */
+#authContainer {
+    width: 420px;
+    margin: 50px auto;
+    background: linear-gradient(to bottom, #ffffff, #e0f7fa);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+#authContainer h2 { text-align: center; color: #00796b; font-family: 'Lato', sans-serif; }
+#authContainer input, #authContainer select, #authContainer textarea, #authContainer button {
+    width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #ccc; font-family: inherit;
+}
+#authContainer button { background: #00796b; color: white; font-weight: 600; cursor: pointer; transition: 0.3s; }
+#authContainer button:hover { background: #004d40; }
+
+/* ===== DASHBOARDS ===== */
+.dashboard { display: none; padding: 20px; border-radius: 12px; min-height: 80vh; }
+
+/* ===== NAV ===== */
+nav { overflow: hidden; border-radius: 8px; margin-bottom: 15px; }
+nav a {
+    float: left;
+    padding: 12px 18px;
+    text-decoration: none;
+    font-weight: 500;
+    border-radius: 6px;
+    margin-right: 5px;
+    transition: 0.3s;
+}
+nav a:hover { opacity: 0.8; }
+
+/* ===== CARDS ===== */
+.card { padding: 20px; margin: 15px 0; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
+
+/* ===== ASSIGNMENTS & NOTES ===== */
+.assignment-card { padding: 12px; border-left: 5px solid; margin: 10px 0; border-radius: 8px; }
+.note-card { padding: 12px; border-left: 5px solid; margin: 10px 0; border-radius: 8px; }
+
+/* ===== TABLE ===== */
+table { width: 100%; border-collapse: collapse; font-family: inherit; }
+th { background-color: #4b6cb7; color: white; padding: 8px; }
+td { padding: 6px; border: 1px solid #ddd; }
+
+/* ===== BUTTON TYPES ===== */
+button { border: none; border-radius: 6px; padding: 10px; margin-top: 5px; cursor: pointer; transition: 0.3s; }
+button:hover { opacity: 0.85; }
+.student-btn { background: #0c02d1cb; color: white; }
+.teacher-btn { background: #ff7043; color: white; }
+.submit-btn { background: #00c853; color: white; }
+.grade-btn { background: #d71b11; color: white; }
+
+/* ===== PAGE SPECIFIC STYLES ===== */
+
+/* STUDENT DASHBOARD */
+#studentDashboard {
+    background: linear-gradient(to bottom right, #e3f2fd, #bbdefb);
+    font-family: 'Roboto', sans-serif;
+}
+#studentDashboard .card { background: linear-gradient(to bottom right, #ffffff, #e1f5fe); }
+#studentDashboard .assignment-card { border-left-color: #0288d1; background: #e1f5fe; }
+#studentDashboard .note-card { border-left-color: #1976d2; background: #e3f2fd; }
+nav#studentNav a { background: #0288d1; color: white; }
+
+/* TEACHER DASHBOARD */
+#teacherDashboard {
+    background: linear-gradient(to bottom right, #fff3e0, #ffe0b2);
+    font-family: 'Lato', sans-serif;
+}
+#teacherDashboard .card { background: linear-gradient(to bottom right, #fff8e1, #ffe0b2); }
+#teacherDashboard .assignment-card { border-left-color: #f57c00; background: #fff3e0; }
+#teacherDashboard .note-card { border-left-color: #ef6c00; background: #fff8e1; }
+nav#teacherNav a { background: #ff7043; color: white; }
+
+/* TEACHER COURSES CARDS */
+#teacherCoursesList .card { background: #fff3e0; border-left: 5px solid #ffb300; }
+
+/* STUDENT COURSES CARDS */
+#studentCoursesList .card { background: #e8f5e9; border-left: 5px solid #43a047; }
+</style>
+</head>
+<body>
+
+<header>Learning Management System (LMS)</header>
+
+<!-- LOGIN -->
+<div class="container" id="authContainer">
+  <h2>Login / Register</h2>
+  <select id="role"><option value="student">Student</option><option value="teacher">Teacher</option></select>
+  <input id="name" placeholder="Full Name">
+  <input id="username" placeholder="Username">
+  <input type="password" id="password" placeholder="Password">
+  <button onclick="register()">Register</button>
+  <button onclick="login()">Login</button>
+  <p id="msg" style="text-align:center;"></p>
+</div>
+
+<!-- STUDENT DASHBOARD -->
+<div class="dashboard" id="studentDashboard">
+  <nav id="studentNav">
+    <a href="#" onclick="showSection('studentInfo')">My Info</a>
+    <a href="#" onclick="showSection('studentCourses')">Courses</a>
+    <a href="#" onclick="logout()">Logout</a>
+  </nav>
+  <h2>Welcome, <span id="studentName"></span> (Student)</h2>
+  <div id="studentInfo" class="card">
+    <h3>Profile</h3>
+    <p><b>Name:</b> <span id="studentFullName"></span></p>
+    <p><b>Username:</b> <span id="studentUser"></span></p>
+  </div>
+  <div id="studentCourses" class="card" style="display:none;">
+    <h3>Available Courses</h3>
+    <div id="studentCoursesList"></div>
+  </div>
+</div>
+
+<!-- TEACHER DASHBOARD -->
+<div class="dashboard" id="teacherDashboard">
+  <nav id="teacherNav">
+    <a href="#" onclick="showSection('teacherInfo')">My Info</a>
+    <a href="#" onclick="showSection('teacherCourses')">My Courses</a>
+    <a href="#" onclick="showSection('submissions')">Evaluate</a>
+    <a href="#" onclick="logout()">Logout</a>
+  </nav>
+  <h2>Welcome, <span id="teacherName"></span> (Teacher)</h2>
+  <div id="teacherInfo" class="card">
+    <h3>Profile</h3>
+    <p><b>Name:</b> <span id="teacherFullName"></span></p>
+    <p><b>Username:</b> <span id="teacherUser"></span></p>
+  </div>
+  <div id="teacherCourses" class="card" style="display:none;">
+    <h3>Manage Courses</h3>
+    <input id="courseTitle" placeholder="Course Title">
+    <textarea id="courseDesc" placeholder="Course Description"></textarea>
+    <button class="teacher-btn" onclick="addCourse()">Add Course</button>
+    <div id="teacherCoursesList"></div>
+  </div>
+  <div id="submissions" class="card" style="display:none;">
+    <h3>Evaluate Assignments</h3>
+    <div id="teacherSubmissionsList"></div>
+  </div>
+</div>
+
+<script>
+// ====== ORIGINAL LMS JS ======
+let users=JSON.parse(localStorage.getItem("users"))||[];
+let courses=JSON.parse(localStorage.getItem("courses"))||[];
+let uploads=JSON.parse(localStorage.getItem("uploads"))||[];
+let notes=JSON.parse(localStorage.getItem("notes"))||[];
+let submissions=JSON.parse(localStorage.getItem("submissions"))||[];
+let currentUser=null;
+
+function saveUsers(){localStorage.setItem("users",JSON.stringify(users))}
+function saveCourses(){localStorage.setItem("courses",JSON.stringify(courses))}
+function saveUploads(){localStorage.setItem("uploads",JSON.stringify(uploads))}
+function saveNotes(){localStorage.setItem("notes",JSON.stringify(notes))}
+function saveSubmissions(){localStorage.setItem("submissions",JSON.stringify(submissions))}
+
+const nameEl=document.getElementById("name"),
+      userEl=document.getElementById("username"),
+      passEl=document.getElementById("password"),
+      roleEl=document.getElementById("role");
+
+function register(){
+ const role=roleEl.value,name=nameEl.value,user=userEl.value,pass=passEl.value;
+ const msg=document.getElementById("msg");
+ if(!name||!user||!pass){msg.style.color="red"; msg.textContent="Fill all fields"; return;}
+ if(users.find(u=>u.username===user)){msg.style.color="red"; msg.textContent="Username exists"; return;}
+ users.push({role,name,username:user,password:pass}); saveUsers();
+ msg.style.color="green"; msg.textContent="Registered successfully!";
+}
+
+function login(){
+ const user=users.find(u=>u.username===userEl.value && u.password===passEl.value);
+ const msg=document.getElementById("msg");
+ if(!user){msg.style.color="red"; msg.textContent="Invalid login"; return;}
+ currentUser=user;
+ document.getElementById("authContainer").style.display="none";
+ if(user.role==="teacher") showTeacherDashboard(); else showStudentDashboard();
+}
+
+function showTeacherDashboard(){
+ const d=document.getElementById("teacherDashboard"); d.style.display="block";
+ document.getElementById("teacherName").textContent=currentUser.name;
+ document.getElementById("teacherFullName").textContent=currentUser.name;
+ document.getElementById("teacherUser").textContent=currentUser.username;
+ showTeacherCourses(); showTeacherSubmissions();
+}
+
+function showStudentDashboard(){
+ const d=document.getElementById("studentDashboard"); d.style.display="block";
+ document.getElementById("studentName").textContent=currentUser.name;
+ document.getElementById("studentFullName").textContent=currentUser.name;
+ document.getElementById("studentUser").textContent=currentUser.username;
+ showStudentCourses();
+}
+
+// ====== BASIC SECTION UTILITY ======
+function showSection(id){
+ document.querySelectorAll(".card").forEach(c=>c.style.display="none");
+ document.getElementById(id).style.display="block";
+}
+function logout(){
+ currentUser=null;
+ document.getElementById("studentDashboard").style.display="none";
+ document.getElementById("teacherDashboard").style.display="none";
+ document.getElementById("authContainer").style.display="block";
+}
+
+// ====== PLACEHOLDER FUNCTIONS ======
+function addCourse(){ alert('Course added (JS logic here)'); }
+function showTeacherCourses(){ }
+function showTeacherSubmissions(){ }
+function showStudentCourses(){ }
+</script>
+</body>
+</html>

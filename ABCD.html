@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LMS Project - Assignments, Notes & Evaluation</title>
+<style>
+body{font-family:Arial,sans-serif;background-color:#f4f4f4;margin:0}
+header{background-color:#4CAF50;color:white;text-align:center;padding:20px;font-size:24px}
+.container{width:400px;margin:40px auto;background:white;padding:25px;border-radius:8px;box-shadow:0 0 10px rgba(0,0,0,0.2)}
+h2{text-align:center;color:#333}
+input,select,button,textarea{width:100%;padding:10px;margin:8px 0;border-radius:5px;border:1px solid #ccc;font-family:inherit}
+button{background-color:#4CAF50;color:white;cursor:pointer;font-size:16px}
+button:hover{background-color:#45a049}
+.dashboard{display:none;padding:20px}
+nav{background-color:#333;overflow:hidden}
+nav a{color:white;float:left;padding:14px 20px;text-decoration:none}
+nav a:hover{background-color:#ddd;color:black}
+.card{background:white;padding:15px;margin:15px;border-radius:8px;box-shadow:0 0 8px rgba(0,0,0,0.1)}
+table{width:100%;border-collapse:collapse}
+th,td{border:1px solid #ddd;padding:8px;text-align:left}
+th{background-color:#4CAF50;color:white}
+</style>
+</head>
+<body>
+
+<header>Learning Management System (LMS)</header>
+
+<!-- LOGIN -->
+<div class="container" id="authContainer">
+  <h2>Login / Register</h2>
+  <select id="role"><option value="student">Student</option><option value="teacher">Teacher</option></select>
+  <input id="name" placeholder="Full Name"><input id="username" placeholder="Username"><input type="password" id="password" placeholder="Password">
+  <button onclick="register()">Register</button><button onclick="login()">Login</button>
+  <p id="msg" style="color:red;text-align:center;"></p>
+</div>
+
+<!-- STUDENT DASHBOARD -->
+<div class="dashboard" id="studentDashboard">
+  <nav>
+    <a href="#" onclick="showSection('studentInfo')">My Info</a>
+    <a href="#" onclick="showSection('studentCourses')">Courses</a>
+    <a href="#" onclick="logout()">Logout</a>
+  </nav>
+  <h2>Welcome, <span id="studentName"></span> (Student)</h2>
+
+  <div id="studentInfo" class="card">
+    <h3>Profile</h3>
+    <p><b>Name:</b> <span id="studentFullName"></span></p>
+    <p><b>Username:</b> <span id="studentUser"></span></p>
+  </div>
+
+  <div id="studentCourses" class="card" style="display:none;">
+    <h3>Available Courses</h3>
+    <div id="studentCoursesList"></div>
+  </div>
+</div>
+
+<!-- TEACHER DASHBOARD -->
+<div class="dashboard" id="teacherDashboard">
+  <nav>
+    <a href="#" onclick="showSection('teacherInfo')">My Info</a>
+    <a href="#" onclick="showSection('teacherCourses')">My Courses</a>
+    <a href="#" onclick="showSection('submissions')">Evaluate</a>
+    <a href="#" onclick="logout()">Logout</a>
+  </nav>
+  <h2>Welcome, <span id="teacherName"></span> (Teacher)</h2>
+
+  <div id="teacherInfo" class="card">
+    <h3>Profile</h3>
+    <p><b>Name:</b> <span id="teacherFullName"></span></p>
+    <p><b>Username:</b> <span id="teacherUser"></span></p>
+  </div>
+
+  <div id="teacherCourses" class="card" style="display:none;">
+    <h3>Manage Courses</h3>
+    <input id="courseTitle" placeholder="Course Title">
+    <textarea id="courseDesc" placeholder="Course Description"></textarea>
+    <button onclick="addCourse()">Add Course</button>
+    <div id="teacherCoursesList"></div>
+  </div>
+
+  <div id="submissions" class="card" style="display:none;">
+    <h3>Evaluate Assignments</h3>
+    <div id="teacherSubmissionsList"></div>
+  </div>
+</div>
+
+<script>
+let users=JSON.parse(localStorage.getItem("users"))||[];
+let courses=JSON.parse(localStorage.getItem("courses"))||[];
+let uploads=JSON.parse(localStorage.getItem("uploads"))||[];
+let notes=JSON.parse(localStorage.getItem("notes"))||[];
+let submissions=JSON.parse(localStorage.getItem("submissions"))||[];
+let currentUser=null;
+
+function saveUsers(){localStorage.setItem("users",JSON.stringify(users))}
+function saveCourses(){localStorage.setItem("courses",JSON.stringify(courses))}
+function saveUploads(){localStorage.setItem("uploads",JSON.stringify(uploads))}
+function saveNotes(){localStorage.setItem("notes",JSON.stringify(notes))}
+function saveSubmissions(){localStorage.setItem("submissions",JSON.stringify(submissions))}
+
+// === AUTH ===
+function register(){
+ const role=roleEl.value,name=nameEl.value,user=userEl.value,pass=passEl.value;
+ const msg=document.getElementById("msg");
+ if(!name||!user||!pass){msg.textContent="Fill all fields";return;}
+ if(users.find(u=>u.username===user)){msg.textContent="Username exists";return;}
+ users.push({role,name,username:user,password:pass});saveUsers();
+ msg.style.color="green";msg.textContent="Registered successfully!";
+}
+const nameEl=document.getElementById("name"),userEl=document.getElementById("username"),passEl=document.getElementById("password"),roleEl=document.getElementById("role");
+
+function login(){
+ const user=users.find(u=>u.username===userEl.value&&u.password===passEl.value);
+ const msg=document.getElementById("msg");
+ if(!user){msg.textContent="Invalid login";return;}
+ currentUser=user;
+ document.getElementById("authContainer").style.display="none";
+ if(user.role==="teacher")showTeacherDashboard();else showStudentDashboard();
+}
+
+function showTeacherDashboard(){
+ const d=document.getElementById("teacherDashboard");d.style.display="block";
+ document.getElementById("teacherName").textContent=currentUser.name;
+ document.getElementById("teacherFullName").textContent=currentUser.name;
+ document.getElementById("teacherUser").textContent=currentUser.username;
+ showTeacherCourses();showTeacherSubmissions();
+}
+
+function showStudentDashboard(){
+ const d=document.getElementById("studentDashboard");d.style.display="block";
+ document.getElementById("studentName").textContent=currentUser.name;
+ document.getElementById("studentFullName").textContent=currentUser.name;
+ document.getElementById("studentUser").textContent=currentUser.username;
+ showStudentCourses();
+}
+
+// === COURSES ===
+function addCourse(){
+ const title=document.getElementById("courseTitle").value.trim();
+ const desc=document.getElementById("courseDesc").value.trim();
+ if(!title||!desc){alert("Fill all fields!");return;}
+ courses.push({title,desc,teacher:currentUser.name});saveCourses();
+ showTeacherCourses();alert("Course added!");
+ document.getElementById("courseTitle").value="";document.getElementById("courseDesc").value="";
+}
+
+function showTeacherCourses(){
+ const list=document.getElementById("teacherCoursesList");
+ const myCourses=courses.filter(c=>c.teacher===currentUser.name);
+ list.innerHTML="";
+ myCourses.forEach((c,i)=>{
+  list.innerHTML+=`
+  <div style="border:1px solid #ccc;padding:10px;margin:5px;">
+   <b>${c.title}</b><br><small>${c.desc}</small><br>
+   <button onclick="openCourseUploads('${c.title}')">Manage Assignments</button>
+   <button onclick="openCourseNotes('${c.title}')">Manage Notes</button>
+   <button onclick="deleteCourse(${i})">Delete</button>
+  </div>`;
+ });
+}
+
+function deleteCourse(i){
+ const myCourses=courses.filter(c=>c.teacher===currentUser.name);
+ const del=myCourses[i];courses=courses.filter(c=>c!==del);saveCourses();showTeacherCourses();
+}
+
+// === ASSIGNMENTS (UPLOADS) ===
+function openCourseUploads(courseTitle){
+ const courseUploads=uploads.filter(u=>u.course===courseTitle);
+ let html=`<h3>${courseTitle} - Assignments</h3>
+ <input id='uTitle' placeholder='Assignment Title'>
+ <textarea id='uDesc' placeholder='Description'></textarea>
+ <label>Due Date:</label><input type='date' id='uDue'>
+ <label>Marks:</label><input type='number' id='uMarks' placeholder='Total Marks'>
+ <input type='file' id='uFile'>
+ <button onclick="addUpload('${courseTitle}')">Add Assignment</button><hr>`;
+ courseUploads.forEach(u=>{
+  html+=`<div><b>${u.title}</b> (${u.marks} marks, Due: ${u.due})
+  <br><small>${u.desc}</small><br>
+  <a href="${u.fileURL}" target="_blank">View</a></div><hr>`;
+ });
+ document.getElementById("teacherCoursesList").innerHTML=html+`<button onclick="showTeacherCourses()">Back</button>`;
+}
+
+function addUpload(courseTitle){
+ const t=document.getElementById("uTitle").value,d=document.getElementById("uDesc").value,
+ due=document.getElementById("uDue").value,marks=document.getElementById("uMarks").value,f=document.getElementById("uFile");
+ if(!t||!d||!f.files.length||!due||!marks){alert("Fill all fields");return;}
+ const file=f.files[0];const url=URL.createObjectURL(file);
+ uploads.push({course:courseTitle,title:t,desc:d,due,marks,fileName:file.name,fileURL:url,uploadedBy:currentUser.name});
+ saveUploads();openCourseUploads(courseTitle);
+}
+
+// === NOTES (NEW FEATURE) ===
+function openCourseNotes(courseTitle){
+ const courseNotes=notes.filter(n=>n.course===courseTitle);
+ let html=`<h3>${courseTitle} - Notes</h3>
+ <input id='nTitle' placeholder='Note Title'>
+ <textarea id='nDesc' placeholder='Description'></textarea>
+ <input type='file' id='nFile'>
+ <button onclick="addNote('${courseTitle}')">Add Note</button><hr>`;
+ courseNotes.forEach(n=>{
+  html+=`<div><b>${n.title}</b><br><small>${n.desc}</small><br>
+  <a href="${n.fileURL}" target="_blank">View Note</a></div><hr>`;
+ });
+ document.getElementById("teacherCoursesList").innerHTML=html+`<button onclick="showTeacherCourses()">Back</button>`;
+}
+
+function addNote(courseTitle){
+ const t=document.getElementById("nTitle").value,d=document.getElementById("nDesc").value,f=document.getElementById("nFile");
+ if(!t||!d||!f.files.length){alert("Fill all fields");return;}
+ const file=f.files[0];const url=URL.createObjectURL(file);
+ notes.push({course:courseTitle,title:t,desc:d,fileName:file.name,fileURL:url,uploadedBy:currentUser.name});
+ saveNotes();openCourseNotes(courseTitle);
+}
+
+// === STUDENT VIEW ===
+function showStudentCourses(){
+ const list=document.getElementById("studentCoursesList");list.innerHTML="";
+ courses.forEach(c=>{
+  list.innerHTML+=`<div style='border:1px solid #ccc;padding:10px;margin:5px;'>
+  <b>${c.title}</b><br><small>${c.desc}</small><br><i>By: ${c.teacher}</i><br>
+  <button onclick="openStudentCourse('${c.title}')">View Assignments</button>
+  <button onclick="openStudentNotes('${c.title}')">View Notes</button></div>`;
+ });
+}
+
+function openStudentCourse(courseTitle){
+ const courseUploads=uploads.filter(u=>u.course===courseTitle);
+ let html=`<h3>${courseTitle} - Assignments</h3>`;
+ courseUploads.forEach(u=>{
+  const today=new Date().toISOString().split("T")[0];
+  const status=(today>u.due)?"<span style='color:red'>(Past Due)</span>":"<span style='color:green'>(Active)</span>";
+  html+=`<div style='border-bottom:1px solid #ccc;padding:5px;'>
+  <b>${u.title}</b> - ${u.fileName}<br><small>${u.desc}</small><br>
+  Due: ${u.due} ${status}, Marks: ${u.marks}<br>
+  <a href="${u.fileURL}" target="_blank">View Assignment</a><br>
+  <b>Submit:</b><input type='file' id='file_${u.title}'><button onclick="submitAssignment('${courseTitle}','${u.title}')">Submit</button>
+  <div id='status_${u.title}'></div></div>`;
+ });
+ html+=`<button onclick="showStudentCourses()">Back</button>`;
+ document.getElementById("studentCoursesList").innerHTML=html;
+}
+
+// === STUDENT NOTES VIEW ===
+function openStudentNotes(courseTitle){
+ const courseNotes=notes.filter(n=>n.course===courseTitle);
+ let html=`<h3>${courseTitle} - Notes</h3>`;
+ if(courseNotes.length===0){html+="<p>No notes available.</p>";}
+ courseNotes.forEach(n=>{
+  html+=`<div style='border-bottom:1px solid #ccc;padding:5px;'>
+  <b>${n.title}</b><br><small>${n.desc}</small><br>
+  <a href="${n.fileURL}" target="_blank">View / Download</a></div>`;
+ });
+ html+=`<button onclick="showStudentCourses()">Back</button>`;
+ document.getElementById("studentCoursesList").innerHTML=html;
+}
+
+// === SUBMISSION ===
+function submitAssignment(course,title){
+ const input=document.getElementById(`file_${title}`);
+ if(input.files.length===0){alert("Choose file");return;}
+ const file=input.files[0];const url=URL.createObjectURL(file);
+ const upload=uploads.find(u=>u.course===course&&u.title===title);
+ const today=new Date().toISOString().split("T")[0];
+ const late=today>upload.due?"(Late)":""; 
+ submissions.push({course,student:currentUser.name,title,fileName:file.name,fileURL:url,grade:"Not graded",marks:upload.marks,submittedOn:today,late});
+ saveSubmissions();
+ document.getElementById(`status_${title}`).innerHTML=`<small>Submitted: ${file.name} ${late}</small>`;
+ alert("Submitted!");
+}
+
+// === EVALUATION (TEACHER) ===
+function showTeacherSubmissions(){
+ const list=document.getElementById("teacherSubmissionsList");list.innerHTML="";
+ const mySubs=submissions.filter(s=>{
+  const course=courses.find(c=>c.title===s.course);
+  return course && course.teacher===currentUser.name;
+ });
+ if(mySubs.length===0){list.innerHTML="<p>No submissions yet.</p>";return;}
+ mySubs.forEach((s,i)=>{
+  list.innerHTML+=`<div style='border-bottom:1px solid #ccc;padding:5px;'>
+  <b>${s.student}</b> submitted <b>${s.title}</b> for <i>${s.course}</i> (${s.marks} marks)<br>
+  <a href="${s.fileURL}" target="_blank">View File</a><br>
+  Submitted on: ${s.submittedOn} ${s.late}<br>
+  Grade: ${s.grade}<br>
+  <input type='number' id='grade_${i}' placeholder='Enter marks' max='${s.marks}'><button onclick="gradeSubmission(${i})">Save Grade</button></div>`;
+ });
+}
+
+function gradeSubmission(i){
+ const val=document.getElementById(`grade_${i}`).value;
+ if(val===""){alert("Enter marks");return;}
+ submissions[i].grade=`${val}/${submissions[i].marks}`;
+ saveSubmissions();showTeacherSubmissions();alert("Grade saved!");
+}
+
+// === UTILITIES ===
+function showSection(id){document.querySelectorAll(".card").forEach(c=>c.style.display="none");document.getElementById(id).style.display="block";}
+function logout(){currentUser=null;document.getElementById("studentDashboard").style.display="none";document.getElementById("teacherDashboard").style.display="none";document.getElementById("authContainer").style.display="block";}
+</script>
+</body>
+</html>

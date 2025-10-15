@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LMS Project - Students & Teachers</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+    header {
+        background-color: #4CAF50;
+        color: white;
+        text-align: center;
+        padding: 20px;
+        font-size: 24px;
+    }
+    .container {
+        width: 400px;
+        margin: 40px auto;
+        background: white;
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+    h2 { text-align: center; color: #333; }
+    input, select, button, textarea {
+        width: 100%; padding: 10px; margin: 8px 0;
+        border-radius: 5px; border: 1px solid #ccc;
+        font-family: inherit;
+    }
+    button {
+        background-color: #4CAF50; color: white;
+        cursor: pointer; font-size: 16px;
+    }
+    button:hover { background-color: #45a049; }
+    .dashboard { display: none; padding: 20px; }
+    nav { background-color: #333; overflow: hidden; }
+    nav a {
+        color: white; float: left; padding: 14px 20px;
+        text-decoration: none;
+    }
+    nav a:hover { background-color: #ddd; color: black; }
+    .card {
+        background: white; padding: 15px; margin: 15px;
+        border-radius: 8px; box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    th { background-color: #4CAF50; color: white; }
+</style>
+</head>
+<body>
+
+<header>Learning Management System (LMS)</header>
+
+<!-- LOGIN & REGISTER -->
+<div class="container" id="authContainer">
+    <h2>Login / Register</h2>
+    <select id="role">
+        <option value="student">Student</option>
+        <option value="teacher">Teacher</option>
+    </select>
+    <input type="text" id="name" placeholder="Full Name" required>
+    <input type="text" id="username" placeholder="Username" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button onclick="register()">Register</button>
+    <button onclick="login()">Login</button>
+    <p id="msg" style="color:red; text-align:center;"></p>
+</div>
+
+<!-- STUDENT DASHBOARD -->
+<div class="dashboard" id="studentDashboard">
+    <nav>
+        <a href="#" onclick="showSection('overview')">Challenge Overview</a>
+        <a href="#" onclick="showSection('studentInfo')">My Info</a>
+        <a href="#" onclick="showSection('courses')">Courses</a>
+        <a href="#" onclick="showSection('uploads')">Assignments & Notes</a>
+        <a href="#" onclick="logout()">Logout</a>
+    </nav>
+    <h2>Welcome, <span id="studentName"></span> (Student)</h2>
+
+    <div id="overview" class="card">
+        <h3>Challenge Overview</h3>
+        <textarea id="overviewText" rows="6" readonly></textarea>
+    </div>
+
+    <div id="studentInfo" class="card" style="display:none;">
+        <h3>My Profile</h3>
+        <p><b>Name:</b> <span id="studentFullName"></span></p>
+        <p><b>Username:</b> <span id="studentUser"></span></p>
+        <button onclick="editStudentInfo()">Edit My Info</button>
+    </div>
+
+    <div id="courses" class="card" style="display:none;">
+        <h3>My Courses</h3>
+        <ul>
+            <li>Web Development</li>
+            <li>Data Structures</li>
+            <li>Mathematics</li>
+        </ul>
+    </div>
+
+    <div id="uploads" class="card" style="display:none;">
+        <h3>Assignments & Notes</h3>
+        <div id="studentUploadsList"></div>
+    </div>
+</div>
+
+<!-- TEACHER DASHBOARD -->
+<div class="dashboard" id="teacherDashboard">
+    <nav>
+        <a href="#" onclick="showSection('overview')">Challenge Overview</a>
+        <a href="#" onclick="showSection('teacherInfo')">My Info</a>
+        <a href="#" onclick="showSection('studentList')">Manage Students</a>
+        <a href="#" onclick="showSection('uploadSection')">Upload Notes & Assignments</a>
+        <a href="#" onclick="showSection('submissions')">Evaluate Submissions</a>
+        <a href="#" onclick="logout()">Logout</a>
+    </nav>
+    <h2>Welcome, <span id="teacherName"></span> (Teacher)</h2>
+
+    <div id="overview" class="card">
+        <h3>Challenge Overview</h3>
+        <textarea id="overviewText"></textarea>
+        <button onclick="saveOverview()">Save Overview</button>
+    </div>
+
+    <div id="teacherInfo" class="card" style="display:none;">
+        <h3>Profile</h3>
+        <p><b>Name:</b> <span id="teacherFullName"></span></p>
+        <p><b>Username:</b> <span id="teacherUser"></span></p>
+    </div>
+
+    <div id="studentList" class="card" style="display:none;">
+        <h3>Student Records</h3>
+        <table id="studentTable">
+            <thead><tr><th>Name</th><th>Username</th><th>Action</th></tr></thead>
+            <tbody></tbody>
+        </table>
+        <h4>Add New Student</h4>
+        <input type="text" id="newStuName" placeholder="Student Name">
+        <input type="text" id="newStuUser" placeholder="Student Username">
+        <input type="password" id="newStuPass" placeholder="Password">
+        <button onclick="addStudent()">Add Student</button>
+    </div>
+
+    <div id="uploadSection" class="card" style="display:none;">
+        <h3>Upload Notes / Assignments</h3>
+        <input type="text" id="uploadTitle" placeholder="Title">
+        <textarea id="uploadDesc" placeholder="Description"></textarea>
+        <input type="file" id="uploadFile">
+        <button onclick="addUpload()">Upload</button>
+        <h3>Uploaded Files</h3>
+        <div id="teacherUploadsList"></div>
+    </div>
+
+    <div id="submissions" class="card" style="display:none;">
+        <h3>Student Submissions</h3>
+        <div id="teacherSubmissionsList"></div>
+    </div>
+</div>
+
+<script>
+let users = JSON.parse(localStorage.getItem("users")) || [];
+let uploads = JSON.parse(localStorage.getItem("uploads")) || [];
+let submissions = JSON.parse(localStorage.getItem("submissions")) || [];
+let overviewText = localStorage.getItem("overviewText") || 
+`Participants will work in teams to design and implement a Learning Management System (LMS) with 
+features for students and teachers. The project will be judged on functionality, design/UX, and code 
+quality. Performance will be ranked as Bronze, Silver, Gold, or Platinum depending on how many user 
+stories are completed.`;
+let currentUser = null;
+
+function saveUsers(){ localStorage.setItem("users", JSON.stringify(users)); }
+function saveUploads(){ localStorage.setItem("uploads", JSON.stringify(uploads)); }
+function saveSubmissions(){ localStorage.setItem("submissions", JSON.stringify(submissions)); }
+
+function register(){
+    const role=document.getElementById("role").value;
+    const name=document.getElementById("name").value;
+    const username=document.getElementById("username").value;
+    const password=document.getElementById("password").value;
+    const msg=document.getElementById("msg");
+    if(!name||!username||!password){ msg.innerText="Please fill all fields!"; return; }
+    if(users.find(u=>u.username===username)){ msg.innerText="Username already exists!"; return; }
+    users.push({role,name,username,password});
+    saveUsers();
+    msg.style.color="green"; msg.innerText="Registered successfully!";
+}
+
+function login(){
+    const username=document.getElementById("username").value;
+    const password=document.getElementById("password").value;
+    const user=users.find(u=>u.username===username&&u.password===password);
+    const msg=document.getElementById("msg");
+    if(!user){ msg.innerText="Invalid username or password!"; return; }
+    currentUser=user;
+    document.getElementById("authContainer").style.display="none";
+    if(user.role==="student"){ showStudentDashboard(user); }
+    else{ showTeacherDashboard(user); }
+}
+
+function showStudentDashboard(user){
+    document.getElementById("studentDashboard").style.display="block";
+    document.getElementById("studentName").innerText=user.name;
+    document.getElementById("studentFullName").innerText=user.name;
+    document.getElementById("studentUser").innerText=user.username;
+    document.getElementById("overviewText").value=overviewText;
+    showStudentUploads();
+}
+
+function showTeacherDashboard(user){
+    document.getElementById("teacherDashboard").style.display="block";
+    document.getElementById("teacherName").innerText=user.name;
+    document.getElementById("teacherFullName").innerText=user.name;
+    document.getElementById("teacherUser").innerText=user.username;
+    document.getElementById("overviewText").value=overviewText;
+    loadStudentList();
+    showTeacherUploads();
+    showTeacherSubmissions();
+}
+
+function saveOverview(){
+    overviewText=document.getElementById("overviewText").value;
+    localStorage.setItem("overviewText",overviewText);
+    alert("Challenge Overview saved!");
+}
+
+function loadStudentList(){
+    const tableBody=document.querySelector("#studentTable tbody");
+    tableBody.innerHTML="";
+    const students=users.filter(u=>u.role==="student");
+    students.forEach(stu=>{
+        const row=document.createElement("tr");
+        row.innerHTML=`<td>${stu.name}</td><td>${stu.username}</td>
+        <td><button onclick="deleteStudent('${stu.username}')">Delete</button></td>`;
+        tableBody.appendChild(row);
+    });
+}
+
+function addStudent(){
+    const name=document.getElementById("newStuName").value;
+    const username=document.getElementById("newStuUser").value;
+    const password=document.getElementById("newStuPass").value;
+    if(!name||!username||!password){alert("Fill all fields!");return;}
+    if(users.find(u=>u.username===username)){alert("Username already exists!");return;}
+    users.push({role:"student",name,username,password});
+    saveUsers();
+    loadStudentList();
+    document.getElementById("newStuName").value="";
+    document.getElementById("newStuUser").value="";
+    document.getElementById("newStuPass").value="";
+    alert("Student added!");
+}
+
+function deleteStudent(username){
+    users=users.filter(u=>u.username!==username);
+    saveUsers();
+    loadStudentList();
+}
+
+function editStudentInfo(){
+    const newName=prompt("Enter your new name:",currentUser.name);
+    if(newName){
+        currentUser.name=newName;
+        users=users.map(u=>u.username===currentUser.username?currentUser:u);
+        saveUsers();
+        showStudentDashboard(currentUser);
+        alert("Profile updated!");
+    }
+}
+
+// === Upload Management ===
+function addUpload(){
+    const title=document.getElementById("uploadTitle").value;
+    const desc=document.getElementById("uploadDesc").value;
+    const fileInput=document.getElementById("uploadFile");
+    if(!title||!desc||fileInput.files.length===0){alert("Please fill all fields!");return;}
+    const file=fileInput.files[0];
+    const fileURL=URL.createObjectURL(file);
+    uploads.push({title,desc,fileName:file.name,fileURL,uploadedBy:currentUser.name});
+    saveUploads();
+    showTeacherUploads();
+    alert("Upload added successfully!");
+    document.getElementById("uploadTitle").value="";
+    document.getElementById("uploadDesc").value="";
+    fileInput.value="";
+}
+
+function showTeacherUploads(){
+    const list=document.getElementById("teacherUploadsList");
+    list.innerHTML="";
+    uploads.forEach((u,i)=>{
+        list.innerHTML+=`
+        <div style="border-bottom:1px solid #ddd; padding:5px;">
+            <b>${u.title}</b> - ${u.fileName}<br>
+            <small>${u.desc}</small><br>
+            <a href="${u.fileURL}" target="_blank">View</a>
+            <button onclick="editUpload(${i})">Edit</button>
+            <button onclick="deleteUpload(${i})">Delete</button>
+        </div>`;
+    });
+}
+
+function showStudentUploads(){
+    const list=document.getElementById("studentUploadsList");
+    list.innerHTML="";
+    uploads.forEach(u=>{
+        list.innerHTML+=`
+        <div style="border-bottom:1px solid #ddd; padding:5px;">
+            <b>${u.title}</b> - Uploaded by ${u.uploadedBy}<br>
+            <small>${u.desc}</small><br>
+            <a href="${u.fileURL}" target="_blank">View Assignment</a>
+            <br><b>Submit Your Work:</b>
+            <input type="file" id="submitFile_${u.title}">
+            <button onclick="submitAssignment('${u.title}')">Submit</button>
+            <div id="submissionStatus_${u.title}"></div>
+        </div>`;
+    });
+    showSubmissionStatus();
+}
+
+function editUpload(i){
+    const newTitle=prompt("Edit Title:",uploads[i].title);
+    const newDesc=prompt("Edit Description:",uploads[i].desc);
+    if(newTitle&&newDesc){
+        uploads[i].title=newTitle;
+        uploads[i].desc=newDesc;
+        saveUploads();
+        showTeacherUploads();
+    }
+}
+
+function deleteUpload(i){
+    if(confirm("Delete this upload?")){
+        uploads.splice(i,1);
+        saveUploads();
+        showTeacherUploads();
+    }
+}
+
+// === Student Submission ===
+function submitAssignment(title){
+    const fileInput=document.getElementById(`submitFile_${title}`);
+    if(fileInput.files.length===0){alert("Please choose a file!");return;}
+    const file=fileInput.files[0];
+    const fileURL=URL.createObjectURL(file);
+    submissions.push({
+        student:currentUser.name,
+        title,
+        fileName:file.name,
+        fileURL,
+        grade:"Not graded"
+    });
+    saveSubmissions();
+    alert("Assignment submitted successfully!");
+    showSubmissionStatus();
+}
+
+function showSubmissionStatus(){
+    submissions.filter(s=>s.student===currentUser.name).forEach(s=>{
+        document.getElementById(`submissionStatus_${s.title}`).innerHTML=
+        `<small>Submitted: ${s.fileName} | Grade: ${s.grade}</small>`;
+    });
+}
+
+// === Teacher View & Evaluation ===
+function showTeacherSubmissions(){
+    const list=document.getElementById("teacherSubmissionsList");
+    list.innerHTML="";
+    submissions.forEach((s,i)=>{
+        list.innerHTML+=`
+        <div style="border-bottom:1px solid #ccc; padding:5px;">
+            <b>${s.student}</b> submitted <b>${s.title}</b><br>
+            <a href="${s.fileURL}" target="_blank">View Submission</a><br>
+            <small>${s.fileName}</small><br>
+            Grade: ${s.grade}<br>
+            <input type="text" id="grade_${i}" placeholder="Enter grade">
+            <button onclick="gradeSubmission(${i})">Submit Grade</button>
+        </div>`;
+    });
+}
+
+function gradeSubmission(i){
+    const grade=document.getElementById(`grade_${i}`).value;
+    if(!grade){alert("Enter a grade!");return;}
+    submissions[i].grade=grade;
+    saveSubmissions();
+    showTeacherSubmissions();
+    alert("Grade updated!");
+}
+
+// === Section Switching ===
+function showSection(id){
+    document.querySelectorAll(".card").forEach(c=>c.style.display="none");
+    document.getElementById(id).style.display="block";
+}
+
+function logout(){
+    currentUser=null;
+    document.getElementById("studentDashboard").style.display="none";
+    document.getElementById("teacherDashboard").style.display="none";
+    document.getElementById("authContainer").style.display="block";
+}
+</script>
+</body>
+</html>
