@@ -3,432 +3,2501 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LMS Project - Students & Teachers</title>
+<title>LMS Project - Assignments, Notes & Evaluation</title>
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 0;
-    }
-    header {
-        background-color: #4CAF50;
-        color: white;
-        text-align: center;
-        padding: 20px;
-        font-size: 24px;
-    }
-    .container {
-        width: 400px;
-        margin: 40px auto;
-        background: white;
-        padding: 25px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.2);
-    }
-    h2 { text-align: center; color: #333; }
-    input, select, button, textarea {
-        width: 100%; padding: 10px; margin: 8px 0;
-        border-radius: 5px; border: 1px solid #ccc;
-        font-family: inherit;
-    }
-    button {
-        background-color: #4CAF50; color: white;
-        cursor: pointer; font-size: 16px;
-    }
-    button:hover { background-color: #45a049; }
-    .dashboard { display: none; padding: 20px; }
-    nav { background-color: #333; overflow: hidden; }
-    nav a {
-        color: white; float: left; padding: 14px 20px;
-        text-decoration: none;
-    }
-    nav a:hover { background-color: #ddd; color: black; }
-    .card {
-        background: white; padding: 15px; margin: 15px;
-        border-radius: 8px; box-shadow: 0 0 8px rgba(0,0,0,0.1);
-    }
-    table { width: 100%; border-collapse: collapse; }
-    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-    th { background-color: #4CAF50; color: white; }
+body {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  margin: 0;
+  min-height: 100%;
+}
+
+html {
+  height: 100%;
+}
+
+header {
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  color: white;
+  text-align: center;
+  padding: 25px;
+  font-size: 28px;
+  font-weight: bold;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  position: relative;
+}
+
+.notification-container {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  display: none;
+}
+
+.notification-bell {
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.notification-bell:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.05);
+}
+
+.notification-bell svg {
+  width: 24px;
+  height: 24px;
+  fill: white;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #ff4444;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.notification-dropdown {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  width: 350px;
+  max-height: 400px;
+  overflow-y: auto;
+  z-index: 1000;
+  display: none;
+}
+
+.notification-header {
+  padding: 20px;
+  border-bottom: 1px solid #e1e1e1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.notification-header h3 {
+  margin: 0;
+  color: #333;
+  font-size: 18px;
+}
+
+.clear-all-btn {
+  background: none;
+  border: none;
+  color: #4CAF50;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.clear-all-btn:hover {
+  background: #f0f8f0;
+}
+
+.notification-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.notification-item {
+  padding: 15px 20px;
+  border-bottom: 1px solid #f0f0f0;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.notification-item:hover {
+  background: #f8f9fa;
+}
+
+.notification-item.unread {
+  background: #f0f8f0;
+  border-left: 4px solid #4CAF50;
+}
+
+.notification-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.notification-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.notification-icon.warning {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.notification-icon.info {
+  background: #d1ecf1;
+  color: #0c5460;
+}
+
+.notification-icon.success {
+  background: #d4edda;
+  color: #155724;
+}
+
+.notification-text {
+  flex: 1;
+}
+
+.notification-title {
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 5px 0;
+  font-size: 14px;
+}
+
+.notification-message {
+  color: #666;
+  margin: 0 0 5px 0;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.notification-time {
+  color: #999;
+  font-size: 12px;
+}
+
+.notification-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.notification-action {
+  background: none;
+  border: none;
+  color: #4CAF50;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+.notification-action:hover {
+  background: #f0f8f0;
+}
+
+.notification-action.delete {
+  color: #dc3545;
+}
+
+.notification-action.delete:hover {
+  background: #f8d7da;
+}
+
+.no-notifications {
+  padding: 40px 20px;
+  text-align: center;
+  color: #999;
+}
+
+.no-notifications svg {
+  width: 48px;
+  height: 48px;
+  fill: #ddd;
+  margin-bottom: 15px;
+}
+
+@media (max-width: 768px) {
+  .notification-dropdown {
+    width: 300px;
+    right: -20px;
+  }
+  
+  .notification-container {
+    right: 20px;
+  }
+}
+
+.container {
+  max-width: 450px;
+  margin: 40px auto;
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 25px;
+  font-weight: 600;
+}
+
+input, select, button, textarea {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 2px solid #e1e1e1;
+  font-family: inherit;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+input[type="file"] {
+  padding: 8px;
+  background: #f8f9fa;
+  border: 2px dashed #4CAF50;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: #4CAF50;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+button {
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+.dashboard {
+  display: none;
+  min-height: calc(100% - 100px);
+}
+
+nav {
+  background: linear-gradient(135deg, #333 0%, #555 100%);
+  overflow: hidden;
+  border-radius: 10px;
+  margin: 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+nav a {
+  color: white;
+  float: left;
+  padding: 16px 24px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+nav a:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.card {
+  background: white;
+  padding: 25px;
+  margin: 20px;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+  border-left: 5px solid #4CAF50;
+}
+
+.card h3 {
+  color: #333;
+  margin-top: 0;
+  font-weight: 600;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+th, td {
+  border: 1px solid #e1e1e1;
+  padding: 12px;
+  text-align: left;
+}
+
+th {
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  color: white;
+  font-weight: 600;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.course-item {
+  background: #f8f9fa;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 10px;
+  border-left: 4px solid #4CAF50;
+}
+
+.assignment-item {
+  background: #fff3cd;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 10px;
+  border-left: 4px solid #ffc107;
+}
+
+.note-item {
+  background: #d1ecf1;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 10px;
+  border-left: 4px solid #17a2b8;
+}
+
+.submission-item {
+  background: #f8d7da;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 10px;
+  border-left: 4px solid #dc3545;
+}
+
+.btn-small {
+  padding: 8px 16px;
+  margin: 5px;
+  font-size: 14px;
+  width: auto;
+  display: inline-block;
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+}
+
+.btn-warning {
+  background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+}
+
+.grade-input {
+  width: 80px;
+  display: inline-block;
+  margin: 0 10px;
+}
+
+#msg {
+  color: #dc3545;
+  text-align: center;
+  font-weight: 500;
+  margin-top: 15px;
+}
+
+.success-msg {
+  color: #28a745 !important;
+}
+
+.enrolled {
+  background: #d4edda !important;
+  border-left-color: #28a745 !important;
+}
+
+.file-info {
+  background: #e9ecef;
+  padding: 8px;
+  border-radius: 5px;
+  margin: 5px 0;
+  font-size: 12px;
+}
+
+.upload-section {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  margin: 10px 0;
+  border: 1px solid #dee2e6;
+}
+
+.file-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  animation: fadeIn 0.3s ease;
+}
+
+.file-modal {
+  background: white;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90%;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  animation: slideIn 0.3s ease;
+}
+
+.file-modal-header {
+  padding: 20px 25px;
+  border-bottom: 1px solid #e1e1e1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  color: white;
+  border-radius: 15px 15px 0 0;
+}
+
+.file-modal-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.file-modal-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 28px;
+  cursor: pointer;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.file-modal-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
+.file-modal-content {
+  flex: 1;
+  padding: 25px;
+  overflow-y: auto;
+  background: #f8f9fa;
+}
+
+.file-modal-content pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  margin: 0;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #e1e1e1;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.file-modal-footer {
+  padding: 20px 25px;
+  border-top: 1px solid #e1e1e1;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  background: white;
+  border-radius: 0 0 15px 15px;
+}
+
+.file-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+  align-items: center;
+}
+
+.file-action-btn {
+  padding: 6px 12px;
+  font-size: 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 500;
+}
+
+.file-action-btn.view {
+  background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+  color: white;
+}
+
+.file-action-btn.download {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+}
+
+.file-action-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+}
+
+.file-name {
+  margin-left: 8px;
+  color: #666;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { 
+    opacity: 0;
+    transform: translateY(-50px) scale(0.9);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 768px) {
+  .file-modal {
+    width: 95%;
+    max-height: 95%;
+  }
+  
+  .file-modal-header,
+  .file-modal-content,
+  .file-modal-footer {
+    padding: 15px;
+  }
+  
+  .file-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .file-action-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .file-name {
+    margin-left: 0;
+    margin-top: 5px;
+    text-align: center;
+  }
+}
 </style>
 </head>
 <body>
 
-<header>Learning Management System (LMS)</header>
+<header>
+  Learning Management System (LMS)
+  <div class="notification-container" id="notificationContainer">
+    <div class="notification-bell" onclick="toggleNotifications()">
+      <svg viewBox="0 0 24 24">
+        <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/>
+      </svg>
+      <div class="notification-badge" id="notificationBadge" style="display: none;">0</div>
+    </div>
+    <div class="notification-dropdown" id="notificationDropdown">
+      <div class="notification-header">
+        <h3>Notifications</h3>
+        <button class="clear-all-btn" onclick="clearAllNotifications()">Clear All</button>
+      </div>
+      <div class="notification-list" id="notificationList">
+        <div class="no-notifications">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/>
+          </svg>
+          <p>No notifications yet</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
 
-<!-- LOGIN & REGISTER -->
+<!-- LOGIN -->
 <div class="container" id="authContainer">
-    <h2>Login / Register</h2>
-    <select id="role">
-        <option value="student">Student</option>
-        <option value="teacher">Teacher</option>
-    </select>
-    <input type="text" id="name" placeholder="Full Name" required>
-    <input type="text" id="username" placeholder="Username" required>
-    <input type="password" id="password" placeholder="Password" required>
-    <button onclick="register()">Register</button>
-    <button onclick="login()">Login</button>
-    <p id="msg" style="color:red; text-align:center;"></p>
+  <h2>Login / Register</h2>
+  <select id="role">
+    <option value="student">Student</option>
+    <option value="teacher">Teacher</option>
+  </select>
+  <input type="email" id="email" placeholder="Email Address">
+  <input id="username" placeholder="Username">
+  <input type="password" id="password" placeholder="Password">
+  <button onclick="register()">Register</button>
+  <button onclick="login()">Login</button>
+  <button onclick="showForgotPassword()" class="btn-warning">Forgot Password?</button>
+  <p id="msg"></p>
+</div>
+
+<!-- FORGOT PASSWORD -->
+<div class="container" id="forgotPasswordContainer" style="display:none;">
+  <h2>Reset Password</h2>
+  <input type="email" id="resetEmail" placeholder="Enter your email address">
+  <button onclick="sendOTP()">Send OTP</button>
+  <div id="otpSection" style="display:none;">
+    <input id="otpCode" placeholder="Enter 6-digit OTP" maxlength="6">
+    <input type="password" id="newPassword" placeholder="New Password">
+    <button onclick="verifyOTPAndReset()">Reset Password</button>
+  </div>
+  <button onclick="backToLogin()" class="btn-small">Back to Login</button>
+  <p id="resetMsg"></p>
 </div>
 
 <!-- STUDENT DASHBOARD -->
 <div class="dashboard" id="studentDashboard">
-    <nav>
-        <a href="#" onclick="showSection('overview')">Challenge Overview</a>
-        <a href="#" onclick="showSection('studentInfo')">My Info</a>
-        <a href="#" onclick="showSection('courses')">Courses</a>
-        <a href="#" onclick="showSection('uploads')">Assignments & Notes</a>
-        <a href="#" onclick="logout()">Logout</a>
-    </nav>
-    <h2>Welcome, <span id="studentName"></span> (Student)</h2>
+  <nav>
+    <a href="#" onclick="showSection('studentInfo')">My Info</a>
+    <a href="#" onclick="showSection('studentCourses')">Courses</a>
+    <a href="#" onclick="showSection('studentAssignments')">Assignments</a>
+    <a href="#" onclick="showSection('studentCourseNotes')">Course Notes</a>
+    <a href="#" onclick="showSection('studentNotes')">My Notes</a>
+    <a href="#" onclick="logout()">Logout</a>
+  </nav>
+  <h2 style="text-align: center; color: white; margin: 20px;">Welcome, <span id="studentName"></span> (Student)</h2>
 
-    <div id="overview" class="card">
-        <h3>Challenge Overview</h3>
-        <textarea id="overviewText" rows="6" readonly></textarea>
-    </div>
+  <div id="studentInfo" class="card">
+    <h3>📋 Profile Information</h3>
+    <p><b>Name:</b> <span id="studentFullName"></span></p>
+    <p><b>Email:</b> <span id="studentEmail"></span></p>
+    <p><b>Username:</b> <span id="studentUser"></span></p>
+    <p><b>Role:</b> Student</p>
+  </div>
 
-    <div id="studentInfo" class="card" style="display:none;">
-        <h3>My Profile</h3>
-        <p><b>Name:</b> <span id="studentFullName"></span></p>
-        <p><b>Username:</b> <span id="studentUser"></span></p>
-        <p><b>Rank:</b> <span id="studentRank"></span></p>
-        <button onclick="editStudentInfo()">Edit My Info</button>
-    </div>
+  <div id="studentCourses" class="card" style="display:none;">
+    <h3>📚 Available Courses</h3>
+    <div id="studentCoursesList"></div>
+  </div>
 
-    <div id="courses" class="card" style="display:none;">
-        <h3>My Courses</h3>
-        <ul>
-            <li>Web Development</li>
-            <li>Data Structures</li>
-            <li>Mathematics</li>
-        </ul>
-    </div>
+  <div id="studentAssignments" class="card" style="display:none;">
+    <h3>📝 My Assignments</h3>
+    <div id="studentAssignmentsList"></div>
+  </div>
 
-    <div id="uploads" class="card" style="display:none;">
-        <h3>Assignments & Notes</h3>
-        <div id="studentUploadsList"></div>
-    </div>
+  <div id="studentNotes" class="card" style="display:none;">
+    <h3>📖 My Personal Notes</h3>
+    <input id="noteTitle" placeholder="Note Title">
+    <textarea id="noteContent" placeholder="Write your notes here..." rows="4"></textarea>
+    <button onclick="addNote()">Add Note</button>
+    <div id="studentNotesList"></div>
+  </div>
+
+  <div id="studentCourseNotes" class="card" style="display:none;">
+    <h3>📚 Course Notes</h3>
+    <div id="studentCourseNotesList"></div>
+  </div>
 </div>
 
 <!-- TEACHER DASHBOARD -->
 <div class="dashboard" id="teacherDashboard">
-    <nav>
-        <a href="#" onclick="showSection('overview')">Challenge Overview</a>
-        <a href="#" onclick="showSection('teacherInfo')">My Info</a>
-        <a href="#" onclick="showSection('studentList')">Manage Students</a>
-        <a href="#" onclick="showSection('uploadSection')">Upload Notes & Assignments</a>
-        <a href="#" onclick="showSection('submissions')">Evaluate Submissions</a>
-        <a href="#" onclick="logout()">Logout</a>
-    </nav>
-    <h2>Welcome, <span id="teacherName"></span> (Teacher)</h2>
+  <nav>
+    <a href="#" onclick="showSection('teacherInfo')">My Info</a>
+    <a href="#" onclick="showSection('teacherCourses')">My Courses</a>
+    <a href="#" onclick="showSection('teacherNotes')">Course Notes</a>
+    <a href="#" onclick="showSection('assignments')">Assignments</a>
+    <a href="#" onclick="showSection('submissions')">Evaluate</a>
+    <a href="#" onclick="logout()">Logout</a>
+  </nav>
+  <h2 style="text-align: center; color: white; margin: 20px;">Welcome, <span id="teacherName"></span> (Teacher)</h2>
 
-    <div id="overview" class="card">
-        <h3>Challenge Overview</h3>
-        <textarea id="overviewText"></textarea>
-        <button onclick="saveOverview()">Save Overview</button>
-    </div>
+  <div id="teacherInfo" class="card">
+    <h3>👨‍🏫 Profile Information</h3>
+    <p><b>Name:</b> <span id="teacherFullName"></span></p>
+    <p><b>Email:</b> <span id="teacherEmail"></span></p>
+    <p><b>Username:</b> <span id="teacherUser"></span></p>
+    <p><b>Role:</b> Teacher</p>
+  </div>
 
-    <div id="teacherInfo" class="card" style="display:none;">
-        <h3>Profile</h3>
-        <p><b>Name:</b> <span id="teacherFullName"></span></p>
-        <p><b>Username:</b> <span id="teacherUser"></span></p>
+  <div id="teacherCourses" class="card" style="display:none;">
+    <h3>📚 Manage Courses</h3>
+    <input id="courseTitle" placeholder="Course Title">
+    <textarea id="courseDesc" placeholder="Course Description" rows="3"></textarea>
+    <div class="upload-section">
+      <label>📎 Course Materials (Optional):</label>
+      <input type="file" id="courseMaterials" multiple accept=".pdf,.doc,.docx,.ppt,.pptx,.txt">
+      <div id="courseFileList"></div>
     </div>
+    <button onclick="addCourse()">Add Course</button>
+    <div id="teacherCoursesList"></div>
+  </div>
 
-    <div id="studentList" class="card" style="display:none;">
-        <h3>Student Records</h3>
-        <table id="studentTable">
-            <thead><tr><th>Name</th><th>Username</th><th>Rank</th><th>Action</th></tr></thead>
-            <tbody></tbody>
-        </table>
-        <h4>Add New Student</h4>
-        <input type="text" id="newStuName" placeholder="Student Name">
-        <input type="text" id="newStuUser" placeholder="Student Username">
-        <input type="password" id="newStuPass" placeholder="Password">
-        <button onclick="addStudent()">Add Student</button>
+  <div id="teacherNotes" class="card" style="display:none;">
+    <h3>📝 Course Notes</h3>
+    <select id="notesCourse">
+      <option value="">Select Course</option>
+    </select>
+    <input id="teacherNoteTitle" placeholder="Note Title">
+    <textarea id="teacherNoteContent" placeholder="Note content..." rows="4"></textarea>
+    <div class="upload-section">
+      <label>📎 Note Files (Optional):</label>
+      <input type="file" id="noteFiles" multiple accept=".pdf,.doc,.docx,.ppt,.pptx,.txt">
+      <div id="noteFileList"></div>
     </div>
+    <button onclick="addTeacherNote()">Add Note</button>
+    <div id="teacherNotesList"></div>
+  </div>
 
-    <div id="uploadSection" class="card" style="display:none;">
-        <h3>Upload Notes / Assignments</h3>
-        <input type="text" id="uploadTitle" placeholder="Title">
-        <textarea id="uploadDesc" placeholder="Description"></textarea>
-        <input type="file" id="uploadFile">
-        <button onclick="addUpload()">Upload</button>
-        <h3>Uploaded Files</h3>
-        <div id="teacherUploadsList"></div>
+  <div id="assignments" class="card" style="display:none;">
+    <h3>📝 Manage Assignments</h3>
+    <select id="assignmentCourse">
+      <option value="">Select Course</option>
+    </select>
+    <input id="assignmentTitle" placeholder="Assignment Title">
+    <textarea id="assignmentDesc" placeholder="Assignment Description" rows="3"></textarea>
+    <input type="date" id="assignmentDue" placeholder="Due Date">
+    <input type="number" id="assignmentMarks" placeholder="Total Marks" min="1" max="1000" value="100">
+    <div class="upload-section">
+      <label>📎 Assignment Files (Optional):</label>
+      <input type="file" id="assignmentFiles" multiple accept=".pdf,.doc,.docx,.txt">
+      <div id="assignmentFileList"></div>
     </div>
+    <button onclick="addAssignment()">Create Assignment</button>
+    <div id="teacherAssignmentsList"></div>
+  </div>
 
-    <div id="submissions" class="card" style="display:none;">
-        <h3>Student Submissions</h3>
-        <div id="teacherSubmissionsList"></div>
-    </div>
+  <div id="submissions" class="card" style="display:none;">
+    <h3>✅ Evaluate Assignments</h3>
+    <div id="teacherSubmissionsList"></div>
+  </div>
 </div>
 
 <script>
 let users = JSON.parse(localStorage.getItem("users")) || [];
-let uploads = JSON.parse(localStorage.getItem("uploads")) || [];
+let courses = JSON.parse(localStorage.getItem("courses")) || [];
+let assignments = JSON.parse(localStorage.getItem("assignments")) || [];
+let notes = JSON.parse(localStorage.getItem("notes")) || [];
 let submissions = JSON.parse(localStorage.getItem("submissions")) || [];
-let overviewText = localStorage.getItem("overviewText") || 
-`Participants will work in teams to design and implement a Learning Management System (LMS) with 
-features for students and teachers. The project will be judged on functionality, design/UX, and code 
-quality. Performance will be ranked as Bronze, Silver, Gold, or Platinum depending on how many user 
-stories are completed.`;
+let enrollments = JSON.parse(localStorage.getItem("enrollments")) || [];
+let teacherNotes = JSON.parse(localStorage.getItem("teacherNotes")) || [];
+let notifications = JSON.parse(localStorage.getItem("notifications")) || [];
 let currentUser = null;
+let otpData = {}; // Store OTP information temporarily
+let notificationCheckInterval = null;
 
-function saveUsers(){ localStorage.setItem("users", JSON.stringify(users)); }
-function saveUploads(){ localStorage.setItem("uploads", JSON.stringify(uploads)); }
-function saveSubmissions(){ localStorage.setItem("submissions", JSON.stringify(submissions)); }
+function saveUsers() { localStorage.setItem("users", JSON.stringify(users)); }
+function saveCourses() { localStorage.setItem("courses", JSON.stringify(courses)); }
+function saveAssignments() { localStorage.setItem("assignments", JSON.stringify(assignments)); }
+function saveNotes() { localStorage.setItem("notes", JSON.stringify(notes)); }
+function saveSubmissions() { localStorage.setItem("submissions", JSON.stringify(submissions)); }
+function saveEnrollments() { localStorage.setItem("enrollments", JSON.stringify(enrollments)); }
+function saveTeacherNotes() { localStorage.setItem("teacherNotes", JSON.stringify(teacherNotes)); }
+function saveNotifications() { localStorage.setItem("notifications", JSON.stringify(notifications)); }
 
-function getRank(grade){
-    if(grade >= 90) return "Platinum 🥇";
-    else if(grade >= 75) return "Gold 🥈";
-    else if(grade >= 60) return "Silver 🥉";
-    else return "Bronze 🪙";
+function showMessage(msg, isSuccess = false) {
+  const msgEl = document.getElementById("msg");
+  msgEl.textContent = msg;
+  msgEl.className = isSuccess ? "success-msg" : "";
 }
 
-function updateStudentRanks(){
-    users.filter(u=>u.role==="student").forEach(student=>{
-        let stuSubs = submissions.filter(s=>s.student===student.name && s.grade!=="Not graded");
-        if(stuSubs.length){
-            let avg = stuSubs.reduce((a,s)=>a+parseFloat(s.grade||0),0)/stuSubs.length;
-            student.rank = getRank(avg);
-        } else {
-            student.rank = "No Rank Yet";
+function handleFileUpload(files) {
+  const fileData = [];
+  for (let file of files) {
+    fileData.push({
+      name: file.name,
+      size: file.size,
+      type: file.type,
+      lastModified: file.lastModified
+    });
+  }
+  return fileData;
+}
+
+function displayFileList(files, containerId) {
+  const container = document.getElementById(containerId);
+  if (files.length === 0) {
+    container.innerHTML = "";
+    return;
+  }
+  
+  container.innerHTML = files.map(file => `
+    <div class="file-info">
+      📄 ${file.name} (${(file.size / 1024).toFixed(1)} KB)
+    </div>
+  `).join('');
+}
+
+function generateAssignmentContent(fileName, fileExt) {
+  const assignmentTypes = [
+    'Research Paper', 'Lab Report', 'Case Study', 'Project Proposal', 'Essay Assignment',
+    'Problem Set', 'Presentation', 'Group Project', 'Literature Review', 'Analysis Report'
+  ];
+  
+  const randomType = assignmentTypes[Math.floor(Math.random() * assignmentTypes.length)];
+  
+  return `${randomType.toUpperCase()} - ${fileName}
+${'='.repeat(50)}
+
+ASSIGNMENT INSTRUCTIONS
+
+Objective:
+Complete this ${randomType.toLowerCase()} following the guidelines below. This assignment is designed to assess your understanding of the course material and your ability to apply theoretical concepts to practical scenarios.
+
+Requirements:
+• Length: 1500-2000 words (for written assignments)
+• Format: ${fileExt.toUpperCase()} format required
+• Citations: Use APA format for all references
+• Due Date: As specified in the course schedule
+• Submission: Upload through the LMS portal
+
+Grading Criteria:
+1. Content Quality (40%)
+   - Demonstrates understanding of key concepts
+   - Provides relevant examples and evidence
+   - Shows critical thinking and analysis
+
+2. Organization & Structure (25%)
+   - Clear introduction, body, and conclusion
+   - Logical flow of ideas
+   - Proper use of headings and subheadings
+
+3. Research & References (20%)
+   - Uses credible academic sources
+   - Proper citation format
+   - Adequate number of references (minimum 5)
+
+4. Writing Quality (15%)
+   - Clear and concise writing
+   - Proper grammar and spelling
+   - Professional presentation
+
+Instructions:
+1. Read all provided materials carefully
+2. Conduct additional research as needed
+3. Create an outline before writing
+4. Review and edit your work before submission
+5. Ensure all requirements are met
+
+Resources:
+- Course textbook (Chapters 5-8)
+- Library database access
+- Writing center support available
+- Office hours: Tuesdays 2-4 PM
+
+Submission Guidelines:
+- File name format: LastName_FirstName_Assignment.${fileExt}
+- Submit through LMS before 11:59 PM on due date
+- Late submissions: -10% per day
+- No email submissions accepted
+
+Questions?
+Contact your instructor during office hours or via email.
+
+Good luck with your assignment!
+
+---
+Generated: ${new Date().toLocaleDateString()}
+Course Management System`;
+}
+
+function generateCourseContent(fileName, fileExt) {
+  const courseTopics = [
+    'Introduction to Programming', 'Database Management', 'Web Development', 'Data Structures',
+    'Machine Learning', 'Software Engineering', 'Network Security', 'Mobile Development',
+    'Cloud Computing', 'Artificial Intelligence', 'Digital Marketing', 'Project Management'
+  ];
+  
+  const randomTopic = courseTopics[Math.floor(Math.random() * courseTopics.length)];
+  
+  return `COURSE MATERIAL: ${randomTopic}
+${fileName}
+${'='.repeat(60)}
+
+LEARNING OBJECTIVES
+By the end of this module, students will be able to:
+• Understand fundamental concepts of ${randomTopic.toLowerCase()}
+• Apply theoretical knowledge to practical scenarios
+• Analyze and solve complex problems in the field
+• Demonstrate proficiency in relevant tools and techniques
+
+COURSE OUTLINE
+
+Week 1-2: Foundations
+- Historical background and evolution
+- Core principles and methodologies
+- Industry standards and best practices
+- Hands-on introduction to tools
+
+Week 3-4: Intermediate Concepts
+- Advanced theoretical frameworks
+- Case study analysis
+- Practical applications
+- Group discussions and workshops
+
+Week 5-6: Advanced Topics
+- Current trends and innovations
+- Research methodologies
+- Project development
+- Peer review sessions
+
+Week 7-8: Integration & Assessment
+- Comprehensive project work
+- Presentation and evaluation
+- Final assessments
+- Course reflection and feedback
+
+REQUIRED READINGS
+1. Primary Textbook: "Fundamentals of ${randomTopic}" (Latest Edition)
+2. Supplementary Articles: Available in course library
+3. Online Resources: Links provided in LMS
+4. Industry Reports: Updated quarterly
+
+ASSESSMENT METHODS
+- Assignments: 40%
+- Midterm Exam: 25%
+- Final Project: 25%
+- Participation: 10%
+
+COURSE POLICIES
+Attendance: Regular attendance is expected
+Late Work: Accepted with penalty (see syllabus)
+Academic Integrity: Strictly enforced
+Communication: Check email and LMS daily
+
+RESOURCES & SUPPORT
+- Office Hours: Available by appointment
+- Study Groups: Encouraged and facilitated
+- Technical Support: IT help desk available
+- Library Resources: Extensive digital collection
+
+SCHEDULE & DEADLINES
+All assignments and exams are listed in the course calendar.
+Important dates are also announced via LMS notifications.
+
+For questions or clarification, please contact the instructor
+or visit during scheduled office hours.
+
+---
+Document Version: 2.1
+Last Updated: ${new Date().toLocaleDateString()}
+© Academic Institution - Course Materials`;
+}
+
+function generateNoteContent(fileName, fileExt) {
+  const noteTypes = [
+    'Lecture Notes', 'Study Guide', 'Reference Material', 'Quick Reference',
+    'Summary Notes', 'Key Concepts', 'Formula Sheet', 'Practice Problems'
+  ];
+  
+  const randomType = noteTypes[Math.floor(Math.random() * noteTypes.length)];
+  
+  return `${randomType.toUpperCase()}
+${fileName}
+${'='.repeat(40)}
+
+OVERVIEW
+These notes provide essential information for course study and review.
+Use them alongside textbook readings and lecture materials.
+
+KEY CONCEPTS
+
+1. Fundamental Principles
+   • Core theories and frameworks
+   • Historical development
+   • Current applications
+   • Future trends
+
+2. Practical Applications
+   • Real-world examples
+   • Case studies
+   • Problem-solving approaches
+   • Best practices
+
+3. Important Formulas & Methods
+   • Mathematical foundations
+   • Calculation procedures
+   • Step-by-step processes
+   • Common mistakes to avoid
+
+STUDY TIPS
+✓ Review notes regularly
+✓ Practice with examples
+✓ Form study groups
+✓ Ask questions in class
+✓ Use additional resources
+
+EXAM PREPARATION
+- Focus on highlighted concepts
+- Practice problem sets
+- Review case studies
+- Understand formulas
+- Prepare summary sheets
+
+ADDITIONAL RESOURCES
+• Textbook chapters: 1-5, 8-10
+• Online tutorials available
+• Practice quizzes in LMS
+• Study group sessions
+• Instructor office hours
+
+IMPORTANT REMINDERS
+→ Assignment due dates
+→ Exam schedules
+→ Project milestones
+→ Reading assignments
+→ Lab sessions
+
+QUICK REFERENCE
+Common terms and definitions:
+- Term 1: Definition and explanation
+- Term 2: Key characteristics
+- Term 3: Practical applications
+- Term 4: Related concepts
+
+For comprehensive understanding, combine these notes
+with textbook readings and class discussions.
+
+---
+Study Notes Collection
+Prepared: ${new Date().toLocaleDateString()}
+Course Reference Materials`;
+}
+
+function downloadFile(fileName, fileType, source = 'note') {
+  // Generate realistic content based on file type and source
+  let content = '';
+  const fileExt = fileName.split('.').pop().toLowerCase();
+  
+  if (source === 'assignment') {
+    content = generateAssignmentContent(fileName, fileExt);
+  } else if (source === 'course') {
+    content = generateCourseContent(fileName, fileExt);
+  } else {
+    content = generateNoteContent(fileName, fileExt);
+  }
+  
+  // Determine MIME type
+  let mimeType = 'text/plain';
+  switch (fileExt) {
+    case 'pdf':
+      mimeType = 'application/pdf';
+      break;
+    case 'doc':
+    case 'docx':
+      mimeType = 'application/msword';
+      break;
+    case 'ppt':
+    case 'pptx':
+      mimeType = 'application/vnd.ms-powerpoint';
+      break;
+    case 'txt':
+      mimeType = 'text/plain';
+      break;
+  }
+  
+  const blob = new Blob([content], { type: mimeType });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = fileName;
+  document.body.appendChild(a);
+  a.click();
+  window.URL.revokeObjectURL(url);
+  document.body.removeChild(a);
+  
+  // Show success notification
+  showDownloadNotification(fileName);
+}
+
+function viewFile(fileName, fileType, source = 'note') {
+  // Generate realistic content based on file type and source
+  let content = '';
+  const fileExt = fileName.split('.').pop().toLowerCase();
+  
+  if (source === 'assignment') {
+    content = generateAssignmentContent(fileName, fileExt);
+  } else if (source === 'course') {
+    content = generateCourseContent(fileName, fileExt);
+  } else {
+    content = generateNoteContent(fileName, fileExt);
+  }
+  
+  // Show content in modal
+  showFileModal(fileName, content, fileExt, source);
+}
+
+function showFileModal(fileName, content, fileExt, source) {
+  // Create modal overlay
+  const modal = document.createElement('div');
+  modal.className = 'file-modal-overlay';
+  modal.innerHTML = `
+    <div class="file-modal">
+      <div class="file-modal-header">
+        <h3>📄 ${fileName}</h3>
+        <button class="file-modal-close" onclick="closeFileModal()">&times;</button>
+      </div>
+      <div class="file-modal-content">
+        <pre>${content}</pre>
+      </div>
+      <div class="file-modal-footer">
+        <button class="btn-small btn-success" onclick="downloadFileFromModal('${fileName}', '${fileExt}', '${source}')">
+          📥 Download File
+        </button>
+        <button class="btn-small" onclick="closeFileModal()">Close</button>
+      </div>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+  
+  // Add event listener to close modal when clicking outside
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) {
+      closeFileModal();
+    }
+  });
+}
+
+function closeFileModal() {
+  const modal = document.querySelector('.file-modal-overlay');
+  if (modal) {
+    document.body.removeChild(modal);
+  }
+}
+
+function downloadFileFromModal(fileName, fileExt, source) {
+  const content = document.querySelector('.file-modal-content pre').textContent;
+  
+  // Determine MIME type
+  let mimeType = 'text/plain';
+  switch (fileExt) {
+    case 'pdf':
+      mimeType = 'application/pdf';
+      break;
+    case 'doc':
+    case 'docx':
+      mimeType = 'application/msword';
+      break;
+    case 'ppt':
+    case 'pptx':
+      mimeType = 'application/vnd.ms-powerpoint';
+      break;
+    case 'txt':
+      mimeType = 'text/plain';
+      break;
+  }
+  
+  const blob = new Blob([content], { type: mimeType });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = fileName;
+  document.body.appendChild(a);
+  a.click();
+  window.URL.revokeObjectURL(url);
+  document.body.removeChild(a);
+  
+  showDownloadNotification(fileName);
+  closeFileModal();
+}
+
+function showDownloadNotification(fileName) {
+  // Create notification element
+  const notification = document.createElement('div');
+  notification.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white;
+    padding: 15px 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(40, 167, 69, 0.3);
+    z-index: 3000;
+    font-weight: 500;
+    animation: slideInRight 0.3s ease;
+  `;
+  notification.innerHTML = `✅ Downloaded: ${fileName}`;
+  
+  document.body.appendChild(notification);
+  
+  // Remove notification after 3 seconds
+  setTimeout(() => {
+    notification.style.animation = 'slideOutRight 0.3s ease';
+    setTimeout(() => {
+      if (document.body.contains(notification)) {
+        document.body.removeChild(notification);
+      }
+    }, 300);
+  }, 3000);
+  
+  // Add CSS animations if not already present
+  if (!document.querySelector('#download-animations')) {
+    const style = document.createElement('style');
+    style.id = 'download-animations';
+    style.textContent = `
+      @keyframes slideInRight {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+      @keyframes slideOutRight {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100%); opacity: 0; }
+      }
+    `;
+    document.head.appendChild(style);
+  }
+}
+
+function register() {
+  const email = document.getElementById("email").value.trim();
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value.trim();
+  const role = document.getElementById("role").value;
+
+  if (!email || !username || !password) {
+    showMessage("Please fill in all fields");
+    return;
+  }
+
+  // Validate email format
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    showMessage("Please enter a valid email address");
+    return;
+  }
+
+  if (users.find(u => u.username === username)) {
+    showMessage("Username already exists");
+    return;
+  }
+
+  if (users.find(u => u.email === email)) {
+    showMessage("Email already exists");
+    return;
+  }
+
+  const user = {
+    id: Date.now(),
+    name: username,
+    email,
+    username,
+    password,
+    role
+  };
+
+  users.push(user);
+  saveUsers();
+  showMessage("Registration successful! Please login.", true);
+  
+  // Clear form
+  document.getElementById("email").value = "";
+  document.getElementById("username").value = "";
+  document.getElementById("password").value = "";
+}
+
+function login() {
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value.trim();
+
+  if (!username || !password) {
+    showMessage("Please enter username and password");
+    return;
+  }
+
+  const user = users.find(u => u.username === username && u.password === password);
+  
+  if (!user) {
+    showMessage("Invalid username or password");
+    return;
+  }
+
+  currentUser = user;
+  document.getElementById("authContainer").style.display = "none";
+  
+  if (user.role === "student") {
+    showStudentDashboard();
+  } else {
+    showTeacherDashboard();
+  }
+}
+
+function logout() {
+  currentUser = null;
+  document.getElementById("authContainer").style.display = "block";
+  document.getElementById("studentDashboard").style.display = "none";
+  document.getElementById("teacherDashboard").style.display = "none";
+  document.getElementById("forgotPasswordContainer").style.display = "none";
+  document.getElementById("notificationContainer").style.display = "none";
+  
+  // Stop notification checking
+  if (notificationCheckInterval) {
+    clearInterval(notificationCheckInterval);
+    notificationCheckInterval = null;
+  }
+  
+  // Clear form
+  document.getElementById("username").value = "";
+  document.getElementById("password").value = "";
+  document.getElementById("email").value = "";
+  showMessage("");
+}
+
+function showStudentDashboard() {
+  document.getElementById("studentDashboard").style.display = "block";
+  document.getElementById("studentName").textContent = currentUser.name;
+  document.getElementById("studentFullName").textContent = currentUser.name;
+  document.getElementById("studentEmail").textContent = currentUser.email;
+  document.getElementById("studentUser").textContent = currentUser.username;
+  
+  showSection('studentInfo');
+  loadStudentCourses();
+  loadStudentAssignments();
+  loadStudentNotes();
+  loadStudentCourseNotes();
+  
+  // Show notification bell and start checking for notifications
+  document.getElementById("notificationContainer").style.display = "block";
+  startNotificationCheck();
+  loadNotifications();
+}
+
+function showTeacherDashboard() {
+  document.getElementById("teacherDashboard").style.display = "block";
+  document.getElementById("teacherName").textContent = currentUser.name;
+  document.getElementById("teacherFullName").textContent = currentUser.name;
+  document.getElementById("teacherEmail").textContent = currentUser.email;
+  document.getElementById("teacherUser").textContent = currentUser.username;
+  
+  showSection('teacherInfo');
+  loadTeacherCourses();
+  loadAssignmentCourses();
+  loadNotesCourses();
+  loadTeacherAssignments();
+  loadTeacherNotes();
+  loadSubmissions();
+  
+  // Show notification bell and start checking for notifications
+  document.getElementById("notificationContainer").style.display = "block";
+  startNotificationCheck();
+  loadNotifications();
+}
+
+function showSection(sectionId) {
+  // Hide all sections
+  const sections = ['studentInfo', 'studentCourses', 'studentAssignments', 'studentNotes', 'studentCourseNotes',
+                   'teacherInfo', 'teacherCourses', 'teacherNotes', 'assignments', 'submissions'];
+  
+  sections.forEach(id => {
+    const element = document.getElementById(id);
+    if (element) element.style.display = 'none';
+  });
+  
+  // Show selected section
+  const targetSection = document.getElementById(sectionId);
+  if (targetSection) targetSection.style.display = 'block';
+}
+
+function addCourse() {
+  const title = document.getElementById("courseTitle").value.trim();
+  const desc = document.getElementById("courseDesc").value.trim();
+  const fileInput = document.getElementById("courseMaterials");
+
+  if (!title || !desc) {
+    alert("Please fill in all course fields");
+    return;
+  }
+
+  const files = fileInput.files ? handleFileUpload(fileInput.files) : [];
+
+  const course = {
+    id: Date.now(),
+    title,
+    description: desc,
+    teacherId: currentUser.id,
+    teacherName: currentUser.name,
+    materials: files,
+    createdAt: new Date().toLocaleString()
+  };
+
+  courses.push(course);
+  saveCourses();
+  
+  document.getElementById("courseTitle").value = "";
+  document.getElementById("courseDesc").value = "";
+  document.getElementById("courseMaterials").value = "";
+  document.getElementById("courseFileList").innerHTML = "";
+  
+  loadTeacherCourses();
+  loadAssignmentCourses();
+}
+
+// Add event listener for course file selection
+document.addEventListener('DOMContentLoaded', function() {
+  const courseMaterials = document.getElementById("courseMaterials");
+  if (courseMaterials) {
+    courseMaterials.addEventListener('change', function() {
+      const files = this.files ? handleFileUpload(this.files) : [];
+      displayFileList(files, 'courseFileList');
+    });
+  }
+});
+
+function loadTeacherCourses() {
+  const teacherCourses = courses.filter(c => c.teacherId === currentUser.id);
+  const container = document.getElementById("teacherCoursesList");
+  
+  if (teacherCourses.length === 0) {
+    container.innerHTML = "<p>No courses created yet.</p>";
+    return;
+  }
+
+  container.innerHTML = teacherCourses.map(course => {
+    const enrolledCount = enrollments.filter(e => e.courseId === course.id).length;
+    const materialsHtml = course.materials && course.materials.length > 0 ? 
+      `<div><strong>Materials:</strong> ${course.materials.map(f => f.name).join(', ')}</div>` : '';
+    
+    return `
+      <div class="course-item">
+        <h4>${course.title}</h4>
+        <p>${course.description}</p>
+        ${materialsHtml}
+        <p><strong>Enrolled Students:</strong> ${enrolledCount}</p>
+        <p><small>Created: ${course.createdAt || 'N/A'}</small></p>
+        <button class="btn-small btn-danger" onclick="deleteCourse(${course.id})">Delete Course</button>
+      </div>
+    `;
+  }).join('');
+}
+
+function loadStudentCourses() {
+  const container = document.getElementById("studentCoursesList");
+  
+  if (courses.length === 0) {
+    container.innerHTML = "<p>No courses available yet.</p>";
+    return;
+  }
+
+  container.innerHTML = courses.map(course => {
+    const isEnrolled = enrollments.some(e => e.courseId === course.id && e.studentId === currentUser.id);
+    const enrolledCount = enrollments.filter(e => e.courseId === course.id).length;
+    const materialsHtml = course.materials && course.materials.length > 0 ? 
+      `<div><strong>Course Materials:</strong><br>${isEnrolled ? 
+        course.materials.map(f => 
+          `<div class="file-actions">
+            <button class="file-action-btn view" onclick="viewFile('${f.name}', '${f.type}', 'course')" title="View ${f.name}">👁️ View</button>
+            <button class="file-action-btn download" onclick="downloadFile('${f.name}', '${f.type}', 'course')" title="Download ${f.name}">📥 Download</button>
+            <span class="file-name">${f.name}</span>
+          </div>`
+        ).join('') : 
+        `<span style="color: #666; font-style: italic;">${course.materials.length} file(s) available after enrollment</span>`
+      }</div>` : '';
+    
+    return `
+      <div class="course-item ${isEnrolled ? 'enrolled' : ''}">
+        <h4>${course.title} ${isEnrolled ? '✅' : ''}</h4>
+        <p>${course.description}</p>
+        <p><strong>Instructor:</strong> ${course.teacherName}</p>
+        ${materialsHtml}
+        <p><strong>Enrolled Students:</strong> ${enrolledCount}</p>
+        ${isEnrolled ? 
+          '<p><strong>Status:</strong> ✅ Enrolled</p>' :
+          `<button class="btn-small btn-success" onclick="enrollInCourse(${course.id})">Enroll in Course</button>`
         }
+      </div>
+    `;
+  }).join('');
+}
+
+function enrollInCourse(courseId) {
+  const enrollment = {
+    id: Date.now(),
+    courseId,
+    studentId: currentUser.id,
+    studentName: currentUser.name,
+    enrolledAt: new Date().toLocaleString()
+  };
+
+  enrollments.push(enrollment);
+  saveEnrollments();
+  loadStudentCourses();
+  loadStudentAssignments();
+}
+
+function deleteCourse(courseId) {
+  courses = courses.filter(c => c.id !== courseId);
+  assignments = assignments.filter(a => a.courseId !== courseId);
+  saveCourses();
+  saveAssignments();
+  loadTeacherCourses();
+  loadAssignmentCourses();
+}
+
+function loadAssignmentCourses() {
+  const select = document.getElementById("assignmentCourse");
+  const teacherCourses = courses.filter(c => c.teacherId === currentUser.id);
+  
+  select.innerHTML = '<option value="">Select Course</option>' + 
+    teacherCourses.map(course => `<option value="${course.id}">${course.title}</option>`).join('');
+}
+
+function addAssignment() {
+  const courseId = document.getElementById("assignmentCourse").value;
+  const title = document.getElementById("assignmentTitle").value.trim();
+  const desc = document.getElementById("assignmentDesc").value.trim();
+  const dueDate = document.getElementById("assignmentDue").value;
+  const totalMarks = parseInt(document.getElementById("assignmentMarks").value) || 100;
+  const fileInput = document.getElementById("assignmentFiles");
+
+  if (!courseId || !title || !desc || !dueDate) {
+    alert("Please fill in all assignment fields");
+    return;
+  }
+
+  const course = courses.find(c => c.id == courseId);
+  const files = fileInput.files ? handleFileUpload(fileInput.files) : [];
+
+  const assignment = {
+    id: Date.now(),
+    courseId: parseInt(courseId),
+    courseName: course.title,
+    title,
+    description: desc,
+    dueDate,
+    totalMarks,
+    teacherId: currentUser.id,
+    files: files,
+    createdAt: new Date().toLocaleString()
+  };
+
+  assignments.push(assignment);
+  saveAssignments();
+  
+  document.getElementById("assignmentCourse").value = "";
+  document.getElementById("assignmentTitle").value = "";
+  document.getElementById("assignmentDesc").value = "";
+  document.getElementById("assignmentDue").value = "";
+  document.getElementById("assignmentMarks").value = "100";
+  document.getElementById("assignmentFiles").value = "";
+  document.getElementById("assignmentFileList").innerHTML = "";
+  
+  loadTeacherAssignments();
+}
+
+// Add event listener for assignment file selection
+document.addEventListener('DOMContentLoaded', function() {
+  const assignmentFiles = document.getElementById("assignmentFiles");
+  if (assignmentFiles) {
+    assignmentFiles.addEventListener('change', function() {
+      const files = this.files ? handleFileUpload(this.files) : [];
+      displayFileList(files, 'assignmentFileList');
     });
+  }
+});
+
+function loadTeacherAssignments() {
+  const teacherAssignments = assignments.filter(a => a.teacherId === currentUser.id);
+  const container = document.getElementById("teacherAssignmentsList");
+  
+  if (teacherAssignments.length === 0) {
+    container.innerHTML = "<p>No assignments created yet.</p>";
+    return;
+  }
+
+  container.innerHTML = teacherAssignments.map(assignment => {
+    const submissionCount = submissions.filter(s => s.assignmentId === assignment.id).length;
+    const filesHtml = assignment.files && assignment.files.length > 0 ? 
+      `<div><strong>Files:</strong> ${assignment.files.map(f => f.name).join(', ')}</div>` : '';
+    
+    return `
+      <div class="assignment-item">
+        <h4>${assignment.title}</h4>
+        <p><strong>Course:</strong> ${assignment.courseName}</p>
+        <p>${assignment.description}</p>
+        ${filesHtml}
+        <p><strong>Due Date:</strong> ${assignment.dueDate}</p>
+        <p><strong>Total Marks:</strong> ${assignment.totalMarks || 100}</p>
+        <p><strong>Submissions:</strong> ${submissionCount}</p>
+        <p><small>Created: ${assignment.createdAt || 'N/A'}</small></p>
+        <button class="btn-small btn-danger" onclick="deleteAssignment(${assignment.id})">Delete Assignment</button>
+      </div>
+    `;
+  }).join('');
+}
+
+function loadStudentAssignments() {
+  const container = document.getElementById("studentAssignmentsList");
+  
+  // Only show assignments from enrolled courses
+  const enrolledCourseIds = enrollments
+    .filter(e => e.studentId === currentUser.id)
+    .map(e => e.courseId);
+  
+  const availableAssignments = assignments.filter(a => enrolledCourseIds.includes(a.courseId));
+  
+  if (availableAssignments.length === 0) {
+    container.innerHTML = "<p>No assignments available. Please enroll in courses first.</p>";
+    return;
+  }
+
+  container.innerHTML = availableAssignments.map(assignment => {
+    const userSubmission = submissions.find(s => s.assignmentId === assignment.id && s.studentId === currentUser.id);
+    const isSubmitted = !!userSubmission;
+    const grade = userSubmission ? userSubmission.grade : null;
+    const filesHtml = assignment.files && assignment.files.length > 0 ? 
+      `<div><strong>Assignment Files:</strong><br>${assignment.files.map(f => 
+        `<div class="file-actions">
+          <button class="file-action-btn view" onclick="viewFile('${f.name}', '${f.type}', 'assignment')" title="View ${f.name}">👁️ View</button>
+          <button class="file-action-btn download" onclick="downloadFile('${f.name}', '${f.type}', 'assignment')" title="Download ${f.name}">📥 Download</button>
+          <span class="file-name">${f.name}</span>
+        </div>`
+      ).join('')}</div>` : '';
+    
+    return `
+      <div class="assignment-item">
+        <h4>${assignment.title}</h4>
+        <p><strong>Course:</strong> ${assignment.courseName}</p>
+        <p>${assignment.description}</p>
+        ${filesHtml}
+        <p><strong>Due Date:</strong> ${assignment.dueDate}</p>
+        <p><strong>Total Marks:</strong> ${assignment.totalMarks || 100}</p>
+        ${isSubmitted ? 
+          `<p><strong>Status:</strong> ✅ Submitted</p>
+           <p><strong>Submitted:</strong> ${userSubmission.submittedAt}</p>
+           ${userSubmission.files && userSubmission.files.length > 0 ? 
+             `<p><strong>Submitted Files:</strong> ${userSubmission.files.map(f => f.name).join(', ')}</p>` : ''}
+           ${grade !== null ? `<p><strong>Grade:</strong> ${grade}/${assignment.totalMarks || 100}</p>` : '<p><strong>Grade:</strong> Pending</p>'}` :
+          `<div class="upload-section">
+             <textarea id="submission_${assignment.id}" placeholder="Write your submission here..." rows="3"></textarea>
+             <input type="file" id="submissionFiles_${assignment.id}" multiple accept=".pdf,.doc,.docx,.txt">
+             <button class="btn-small btn-success" onclick="submitAssignment(${assignment.id})">Submit Assignment</button>
+           </div>`
+        }
+      </div>
+    `;
+  }).join('');
+}
+
+function submitAssignment(assignmentId) {
+  const submissionText = document.getElementById(`submission_${assignmentId}`).value.trim();
+  const fileInput = document.getElementById(`submissionFiles_${assignmentId}`);
+  
+  if (!submissionText && (!fileInput.files || fileInput.files.length === 0)) {
+    alert("Please write your submission or upload files");
+    return;
+  }
+
+  const files = fileInput.files ? handleFileUpload(fileInput.files) : [];
+
+  const submission = {
+    id: Date.now(),
+    assignmentId,
+    studentId: currentUser.id,
+    studentName: currentUser.name,
+    content: submissionText,
+    files: files,
+    submittedAt: new Date().toLocaleString(),
+    grade: null
+  };
+
+  submissions.push(submission);
+  saveSubmissions();
+  loadStudentAssignments();
+}
+
+function loadNotesCourses() {
+  const select = document.getElementById("notesCourse");
+  const teacherCourses = courses.filter(c => c.teacherId === currentUser.id);
+  
+  select.innerHTML = '<option value="">Select Course</option>' + 
+    teacherCourses.map(course => `<option value="${course.id}">${course.title}</option>`).join('');
+}
+
+function addTeacherNote() {
+  const courseId = document.getElementById("notesCourse").value;
+  const title = document.getElementById("teacherNoteTitle").value.trim();
+  const content = document.getElementById("teacherNoteContent").value.trim();
+  const fileInput = document.getElementById("noteFiles");
+
+  if (!courseId || !title || !content) {
+    alert("Please fill in all note fields");
+    return;
+  }
+
+  const course = courses.find(c => c.id == courseId);
+  const files = fileInput.files ? handleFileUpload(fileInput.files) : [];
+
+  const note = {
+    id: Date.now(),
+    courseId: parseInt(courseId),
+    courseName: course.title,
+    title,
+    content,
+    teacherId: currentUser.id,
+    teacherName: currentUser.name,
+    files: files,
+    createdAt: new Date().toLocaleString()
+  };
+
+  teacherNotes.push(note);
+  saveTeacherNotes();
+  
+  document.getElementById("notesCourse").value = "";
+  document.getElementById("teacherNoteTitle").value = "";
+  document.getElementById("teacherNoteContent").value = "";
+  document.getElementById("noteFiles").value = "";
+  document.getElementById("noteFileList").innerHTML = "";
+  
+  loadTeacherNotes();
+}
+
+function loadTeacherNotes() {
+  const myNotes = teacherNotes.filter(n => n.teacherId === currentUser.id);
+  const container = document.getElementById("teacherNotesList");
+  
+  if (myNotes.length === 0) {
+    container.innerHTML = "<p>No notes created yet.</p>";
+    return;
+  }
+
+  container.innerHTML = myNotes.map(note => {
+    const filesHtml = note.files && note.files.length > 0 ? 
+      `<div><strong>Files:</strong> ${note.files.map(f => f.name).join(', ')}</div>` : '';
+    
+    return `
+      <div class="note-item">
+        <h4>${note.title}</h4>
+        <p><strong>Course:</strong> ${note.courseName}</p>
+        <p>${note.content}</p>
+        ${filesHtml}
+        <p><small>Created: ${note.createdAt}</small></p>
+        <button class="btn-small btn-danger" onclick="deleteTeacherNote(${note.id})">Delete Note</button>
+      </div>
+    `;
+  }).join('');
+}
+
+function deleteTeacherNote(noteId) {
+  teacherNotes = teacherNotes.filter(n => n.id !== noteId);
+  saveTeacherNotes();
+  loadTeacherNotes();
+}
+
+function loadStudentCourseNotes() {
+  const container = document.getElementById("studentCourseNotesList");
+  
+  // Get enrolled course IDs
+  const enrolledCourseIds = enrollments
+    .filter(e => e.studentId === currentUser.id)
+    .map(e => e.courseId);
+  
+  // Get notes from enrolled courses
+  const availableNotes = teacherNotes.filter(n => enrolledCourseIds.includes(n.courseId));
+  
+  if (availableNotes.length === 0) {
+    container.innerHTML = "<p>No course notes available. Please enroll in courses first.</p>";
+    return;
+  }
+
+  container.innerHTML = availableNotes.map(note => {
+    const filesHtml = note.files && note.files.length > 0 ? 
+      `<div><strong>Attached Files:</strong><br>${note.files.map(f => 
+        `<div class="file-actions">
+          <button class="file-action-btn view" onclick="viewFile('${f.name}', '${f.type}', 'note')" title="View ${f.name}">👁️ View</button>
+          <button class="file-action-btn download" onclick="downloadFile('${f.name}', '${f.type}', 'note')" title="Download ${f.name}">📥 Download</button>
+          <span class="file-name">${f.name}</span>
+        </div>`
+      ).join('')}</div>` : '';
+    
+    return `
+      <div class="note-item">
+        <h4>${note.title}</h4>
+        <p><strong>Course:</strong> ${note.courseName}</p>
+        <p><strong>Teacher:</strong> ${note.teacherName}</p>
+        <p>${note.content}</p>
+        ${filesHtml}
+        <p><small>Posted: ${note.createdAt}</small></p>
+      </div>
+    `;
+  }).join('');
+}
+
+function deleteAssignment(assignmentId) {
+  assignments = assignments.filter(a => a.id !== assignmentId);
+  submissions = submissions.filter(s => s.assignmentId !== assignmentId);
+  saveAssignments();
+  saveSubmissions();
+  loadTeacherAssignments();
+}
+
+function showForgotPassword() {
+  document.getElementById("authContainer").style.display = "none";
+  document.getElementById("forgotPasswordContainer").style.display = "block";
+  document.getElementById("resetMsg").textContent = "";
+}
+
+function backToLogin() {
+  document.getElementById("authContainer").style.display = "block";
+  document.getElementById("forgotPasswordContainer").style.display = "none";
+  document.getElementById("otpSection").style.display = "none";
+  document.getElementById("resetEmail").value = "";
+  document.getElementById("otpCode").value = "";
+  document.getElementById("newPassword").value = "";
+  document.getElementById("resetMsg").textContent = "";
+}
+
+function generateOTP() {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+}
+
+function sendOTP() {
+  const email = document.getElementById("resetEmail").value.trim();
+  
+  if (!email) {
+    document.getElementById("resetMsg").textContent = "Please enter your email address";
+    document.getElementById("resetMsg").className = "";
+    return;
+  }
+
+  const user = users.find(u => u.email === email);
+  if (!user) {
+    document.getElementById("resetMsg").textContent = "Email not found in our system";
+    document.getElementById("resetMsg").className = "";
+    return;
+  }
+
+  const otp = generateOTP();
+  otpData = {
+    email: email,
+    otp: otp,
+    userId: user.id,
+    timestamp: Date.now()
+  };
+
+  // In a real application, you would send this OTP via email
+  // For demo purposes, we'll show it in an alert
+  alert(`Your OTP is: ${otp}\n\n(In a real application, this would be sent to your email)`);
+  
+  document.getElementById("otpSection").style.display = "block";
+  document.getElementById("resetMsg").textContent = "OTP sent! Please check your email and enter the code below.";
+  document.getElementById("resetMsg").className = "success-msg";
+}
+
+function verifyOTPAndReset() {
+  const enteredOTP = document.getElementById("otpCode").value.trim();
+  const newPassword = document.getElementById("newPassword").value.trim();
+  
+  if (!enteredOTP || !newPassword) {
+    document.getElementById("resetMsg").textContent = "Please enter both OTP and new password";
+    document.getElementById("resetMsg").className = "";
+    return;
+  }
+
+  if (!otpData.otp) {
+    document.getElementById("resetMsg").textContent = "Please request OTP first";
+    document.getElementById("resetMsg").className = "";
+    return;
+  }
+
+  // Check if OTP is expired (5 minutes)
+  if (Date.now() - otpData.timestamp > 5 * 60 * 1000) {
+    document.getElementById("resetMsg").textContent = "OTP has expired. Please request a new one.";
+    document.getElementById("resetMsg").className = "";
+    otpData = {};
+    return;
+  }
+
+  if (enteredOTP !== otpData.otp) {
+    document.getElementById("resetMsg").textContent = "Invalid OTP. Please try again.";
+    document.getElementById("resetMsg").className = "";
+    return;
+  }
+
+  // Update user password
+  const user = users.find(u => u.id === otpData.userId);
+  if (user) {
+    user.password = newPassword;
     saveUsers();
-    loadStudentList();
+    
+    document.getElementById("resetMsg").textContent = "Password reset successful! You can now login with your new password.";
+    document.getElementById("resetMsg").className = "success-msg";
+    
+    // Clear OTP data
+    otpData = {};
+    
+    // Auto redirect to login after 2 seconds
+    setTimeout(() => {
+      backToLogin();
+    }, 2000);
+  }
 }
 
-function register(){
-    const role=document.getElementById("role").value;
-    const name=document.getElementById("name").value;
-    const username=document.getElementById("username").value;
-    const password=document.getElementById("password").value;
-    const msg=document.getElementById("msg");
-    if(!name||!username||!password){ msg.innerText="Please fill all fields!"; return; }
-    if(users.find(u=>u.username===username)){ msg.innerText="Username already exists!"; return; }
-    users.push({role,name,username,password,rank:"No Rank Yet"});
-    saveUsers();
-    msg.style.color="green"; msg.innerText="Registered successfully!";
+// Notification System Functions
+function createNotification(userId, type, title, message, assignmentId = null) {
+  const notification = {
+    id: Date.now() + Math.random(),
+    userId,
+    type, // 'warning', 'info', 'success'
+    title,
+    message,
+    assignmentId,
+    isRead: false,
+    createdAt: new Date().toISOString()
+  };
+  
+  notifications.push(notification);
+  saveNotifications();
+  
+  if (currentUser && currentUser.id === userId) {
+    loadNotifications();
+  }
 }
 
-function login(){
-    const username=document.getElementById("username").value;
-    const password=document.getElementById("password").value;
-    const user=users.find(u=>u.username===username&&u.password===password);
-    const msg=document.getElementById("msg");
-    if(!user){ msg.innerText="Invalid username or password!"; return; }
-    currentUser=user;
-    document.getElementById("authContainer").style.display="none";
-    if(user.role==="student"){ showStudentDashboard(user); }
-    else{ showTeacherDashboard(user); }
-}
-
-function showStudentDashboard(user){
-    document.getElementById("studentDashboard").style.display="block";
-    document.getElementById("studentName").innerText=user.name;
-    document.getElementById("studentFullName").innerText=user.name;
-    document.getElementById("studentUser").innerText=user.username;
-    document.getElementById("studentRank").innerText=user.rank || "No Rank Yet";
-    document.getElementById("overviewText").value=overviewText;
-    showStudentUploads();
-}
-
-function showTeacherDashboard(user){
-    document.getElementById("teacherDashboard").style.display="block";
-    document.getElementById("teacherName").innerText=user.name;
-    document.getElementById("teacherFullName").innerText=user.name;
-    document.getElementById("teacherUser").innerText=user.username;
-    document.getElementById("overviewText").value=overviewText;
-    loadStudentList();
-    showTeacherUploads();
-    showTeacherSubmissions();
-}
-
-function saveOverview(){
-    overviewText=document.getElementById("overviewText").value;
-    localStorage.setItem("overviewText",overviewText);
-    alert("Challenge Overview saved!");
-}
-
-function loadStudentList(){
-    const tableBody=document.querySelector("#studentTable tbody");
-    tableBody.innerHTML="";
-    const students=users.filter(u=>u.role==="student");
-    students.forEach(stu=>{
-        const row=document.createElement("tr");
-        row.innerHTML=`<td>${stu.name}</td><td>${stu.username}</td><td>${stu.rank || 'No Rank'}</td>
-        <td><button onclick="deleteStudent('${stu.username}')">Delete</button></td>`;
-        tableBody.appendChild(row);
-    });
-}
-
-function addStudent(){
-    const name=document.getElementById("newStuName").value;
-    const username=document.getElementById("newStuUser").value;
-    const password=document.getElementById("newStuPass").value;
-    if(!name||!username||!password){alert("Fill all fields!");return;}
-    if(users.find(u=>u.username===username)){alert("Username already exists!");return;}
-    users.push({role:"student",name,username,password,rank:"No Rank Yet"});
-    saveUsers();
-    loadStudentList();
-    document.getElementById("newStuName").value="";
-    document.getElementById("newStuUser").value="";
-    document.getElementById("newStuPass").value="";
-    alert("Student added!");
-}
-
-function deleteStudent(username){
-    users=users.filter(u=>u.username!==username);
-    saveUsers();
-    loadStudentList();
-}
-
-function editStudentInfo(){
-    const newName=prompt("Enter your new name:",currentUser.name);
-    if(newName){
-        currentUser.name=newName;
-        users=users.map(u=>u.username===currentUser.username?currentUser:u);
-        saveUsers();
-        showStudentDashboard(currentUser);
-        alert("Profile updated!");
+function toggleNotifications() {
+  const dropdown = document.getElementById("notificationDropdown");
+  const isVisible = dropdown.style.display === "block";
+  
+  if (isVisible) {
+    dropdown.style.display = "none";
+  } else {
+    dropdown.style.display = "block";
+    loadNotifications();
+  }
+  
+  // Close dropdown when clicking outside
+  document.addEventListener('click', function closeDropdown(e) {
+    if (!e.target.closest('.notification-container')) {
+      dropdown.style.display = "none";
+      document.removeEventListener('click', closeDropdown);
     }
+  });
 }
 
-// === Upload Management ===
-function addUpload(){
-    const title=document.getElementById("uploadTitle").value;
-    const desc=document.getElementById("uploadDesc").value;
-    const fileInput=document.getElementById("uploadFile");
-    if(!title||!desc||fileInput.files.length===0){alert("Please fill all fields!");return;}
-    const file=fileInput.files[0];
-    const fileURL=URL.createObjectURL(file);
-    uploads.push({title,desc,fileName:file.name,fileURL,uploadedBy:currentUser.name});
-    saveUploads();
-    showTeacherUploads();
-    alert("Upload added successfully!");
-    document.getElementById("uploadTitle").value="";
-    document.getElementById("uploadDesc").value="";
-    fileInput.value="";
-}
-
-function showTeacherUploads(){
-    const list=document.getElementById("teacherUploadsList");
-    list.innerHTML="";
-    uploads.forEach((u,i)=>{
-        list.innerHTML+=`
-        <div style="border-bottom:1px solid #ddd; padding:5px;">
-            <b>${u.title}</b> - ${u.fileName}<br>
-            <small>${u.desc}</small><br>
-            <a href="${u.fileURL}" target="_blank">View</a>
-            <button onclick="editUpload(${i})">Edit</button>
-            <button onclick="deleteUpload(${i})">Delete</button>
-        </div>`;
-    });
-}
-
-function showStudentUploads(){
-    const list=document.getElementById("studentUploadsList");
-    list.innerHTML="";
-    uploads.forEach(u=>{
-        list.innerHTML+=`
-        <div style="border-bottom:1px solid #ddd; padding:5px;">
-            <b>${u.title}</b> - Uploaded by ${u.uploadedBy}<br>
-            <small>${u.desc}</small><br>
-            <a href="${u.fileURL}" target="_blank">View Assignment</a>
-            <br><b>Submit Your Work:</b>
-            <input type="file" id="submitFile_${u.title}">
-            <button onclick="submitAssignment('${u.title}')">Submit</button>
-            <div id="submissionStatus_${u.title}"></div>
-        </div>`;
-    });
-    showSubmissionStatus();
-}
-
-function editUpload(i){
-    const newTitle=prompt("Edit Title:",uploads[i].title);
-    const newDesc=prompt("Edit Description:",uploads[i].desc);
-    if(newTitle&&newDesc){
-        uploads[i].title=newTitle;
-        uploads[i].desc=newDesc;
-        saveUploads();
-        showTeacherUploads();
+function loadNotifications() {
+  if (!currentUser) return;
+  
+  const userNotifications = notifications
+    .filter(n => n.userId === currentUser.id)
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  
+  const notificationList = document.getElementById("notificationList");
+  const notificationBadge = document.getElementById("notificationBadge");
+  
+  // Update badge count
+  const unreadCount = userNotifications.filter(n => !n.isRead).length;
+  if (unreadCount > 0) {
+    notificationBadge.textContent = unreadCount;
+    notificationBadge.style.display = "flex";
+  } else {
+    notificationBadge.style.display = "none";
+  }
+  
+  if (userNotifications.length === 0) {
+    notificationList.innerHTML = `
+      <div class="no-notifications">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/>
+        </svg>
+        <p>No notifications yet</p>
+      </div>
+    `;
+    return;
+  }
+  
+  notificationList.innerHTML = userNotifications.map(notification => {
+    const timeAgo = getTimeAgo(new Date(notification.createdAt));
+    const iconType = notification.type || 'info';
+    
+    let iconSvg = '';
+    switch (iconType) {
+      case 'warning':
+        iconSvg = '<svg viewBox="0 0 24 24" width="20" height="20"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>';
+        break;
+      case 'success':
+        iconSvg = '<svg viewBox="0 0 24 24" width="20" height="20"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>';
+        break;
+      default:
+        iconSvg = '<svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>';
     }
+    
+    return `
+      <div class="notification-item ${!notification.isRead ? 'unread' : ''}" data-id="${notification.id}">
+        <div class="notification-content">
+          <div class="notification-icon ${iconType}">
+            ${iconSvg}
+          </div>
+          <div class="notification-text">
+            <p class="notification-title">${notification.title}</p>
+            <p class="notification-message">${notification.message}</p>
+            <p class="notification-time">${timeAgo}</p>
+            <div class="notification-actions">
+              ${!notification.isRead ? `<button class="notification-action" onclick="markAsRead(${notification.id})">Mark as Read</button>` : ''}
+              <button class="notification-action delete" onclick="deleteNotification(${notification.id})">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
 }
 
-function deleteUpload(i){
-    if(confirm("Delete this upload?")){
-        uploads.splice(i,1);
-        saveUploads();
-        showTeacherUploads();
+function markAsRead(notificationId) {
+  const notification = notifications.find(n => n.id === notificationId);
+  if (notification) {
+    notification.isRead = true;
+    saveNotifications();
+    loadNotifications();
+  }
+}
+
+function deleteNotification(notificationId) {
+  notifications = notifications.filter(n => n.id !== notificationId);
+  saveNotifications();
+  loadNotifications();
+}
+
+function clearAllNotifications() {
+  notifications = notifications.filter(n => n.userId !== currentUser.id);
+  saveNotifications();
+  loadNotifications();
+}
+
+function getTimeAgo(date) {
+  const now = new Date();
+  const diffInSeconds = Math.floor((now - date) / 1000);
+  
+  if (diffInSeconds < 60) return 'Just now';
+  if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`;
+  if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h ago`;
+  if (diffInSeconds < 2592000) return `${Math.floor(diffInSeconds / 86400)}d ago`;
+  
+  return date.toLocaleDateString();
+}
+
+function startNotificationCheck() {
+  // Check for assignment deadlines every minute
+  if (notificationCheckInterval) {
+    clearInterval(notificationCheckInterval);
+  }
+  
+  notificationCheckInterval = setInterval(() => {
+    checkAssignmentDeadlines();
+  }, 60000); // Check every minute
+  
+  // Initial check
+  checkAssignmentDeadlines();
+}
+
+function checkAssignmentDeadlines() {
+  if (!currentUser || currentUser.role !== 'student') return;
+  
+  const now = new Date();
+  const twentyFourHoursFromNow = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+  
+  // Get enrolled course IDs
+  const enrolledCourseIds = enrollments
+    .filter(e => e.studentId === currentUser.id)
+    .map(e => e.courseId);
+  
+  // Get assignments from enrolled courses
+  const availableAssignments = assignments.filter(a => enrolledCourseIds.includes(a.courseId));
+  
+  availableAssignments.forEach(assignment => {
+    const dueDate = new Date(assignment.dueDate);
+    const hasSubmitted = submissions.some(s => 
+      s.assignmentId === assignment.id && s.studentId === currentUser.id
+    );
+    
+    // Check if assignment is due within 24 hours and not submitted
+    if (!hasSubmitted && dueDate > now && dueDate <= twentyFourHoursFromNow) {
+      // Check if we already sent this notification
+      const existingNotification = notifications.find(n => 
+        n.userId === currentUser.id && 
+        n.assignmentId === assignment.id && 
+        n.type === 'warning'
+      );
+      
+      if (!existingNotification) {
+        const hoursLeft = Math.ceil((dueDate - now) / (1000 * 60 * 60));
+        createNotification(
+          currentUser.id,
+          'warning',
+          'Assignment Due Soon!',
+          `You have ${hoursLeft} hours left to submit "${assignment.title}" for ${assignment.courseName}.`,
+          assignment.id
+        );
+      }
     }
+  });
 }
 
-// === Student Submission ===
-function submitAssignment(title){
-    const fileInput=document.getElementById(`submitFile_${title}`);
-    if(fileInput.files.length===0){alert("Please choose a file!");return;}
-    const file=fileInput.files[0];
-    const fileURL=URL.createObjectURL(file);
-    submissions.push({
-        student:currentUser.name,
-        title,
-        fileName:file.name,
-        fileURL,
-        grade:"Not graded"
-    });
-    saveSubmissions();
-    alert("Assignment submitted successfully!");
-    showSubmissionStatus();
+// Add notification when assignment is graded
+function gradeSubmission(submissionId) {
+  const gradeInput = document.getElementById(`grade_${submissionId}`);
+  const grade = parseInt(gradeInput.value);
+  
+  const submission = submissions.find(s => s.id === submissionId);
+  const assignment = assignments.find(a => a.id === submission.assignmentId);
+  const maxMarks = assignment.totalMarks || 100;
+
+  if (isNaN(grade) || grade < 0 || grade > maxMarks) {
+    alert(`Please enter a valid grade between 0 and ${maxMarks}`);
+    return;
+  }
+
+  submission.grade = grade;
+  submission.gradedAt = new Date().toLocaleString();
+  saveSubmissions();
+  
+  // Create notification for student
+  createNotification(
+    submission.studentId,
+    'success',
+    'Assignment Graded',
+    `Your assignment "${assignment.title}" has been graded. You scored ${grade}/${maxMarks}.`,
+    assignment.id
+  );
+  
+  loadSubmissions();
 }
 
-function showSubmissionStatus(){
-    submissions.filter(s=>s.student===currentUser.name).forEach(s=>{
-        document.getElementById(`submissionStatus_${s.title}`).innerHTML=
-        `<small>Submitted: ${s.fileName} | Grade: ${s.grade}</small>`;
-    });
+function addNote() {
+  const title = document.getElementById("noteTitle").value.trim();
+  const content = document.getElementById("noteContent").value.trim();
+
+  if (!title || !content) {
+    alert("Please fill in both title and content");
+    return;
+  }
+
+  const note = {
+    id: Date.now(),
+    studentId: currentUser.id,
+    title,
+    content,
+    createdAt: new Date().toLocaleString()
+  };
+
+  notes.push(note);
+  saveNotes();
+  
+  document.getElementById("noteTitle").value = "";
+  document.getElementById("noteContent").value = "";
+  
+  loadStudentNotes();
 }
 
-// === Teacher View & Evaluation ===
-function showTeacherSubmissions(){
-    const list=document.getElementById("teacherSubmissionsList");
-    list.innerHTML="";
-    submissions.forEach((s,i)=>{
-        list.innerHTML+=`
-        <div style="border-bottom:1px solid #ccc; padding:5px;">
-            <b>${s.student}</b> submitted <b>${s.title}</b><br>
-            <a href="${s.fileURL}" target="_blank">View Submission</a><br>
-            <small>${s.fileName}</small><br>
-            Grade: ${s.grade}<br>
-            <input type="number" id="grade_${i}" placeholder="Enter grade (0-100)">
-            <button onclick="gradeSubmission(${i})">Submit Grade</button>
-        </div>`;
-    });
+function loadStudentNotes() {
+  const studentNotes = notes.filter(n => n.studentId === currentUser.id);
+  const container = document.getElementById("studentNotesList");
+  
+  if (studentNotes.length === 0) {
+    container.innerHTML = "<p>No notes created yet.</p>";
+    return;
+  }
+
+  container.innerHTML = studentNotes.map(note => `
+    <div class="note-item">
+      <h4>${note.title}</h4>
+      <p>${note.content}</p>
+      <p><small><strong>Created:</strong> ${note.createdAt}</small></p>
+      <button class="btn-small btn-danger" onclick="deleteNote(${note.id})">Delete Note</button>
+    </div>
+  `).join('');
 }
 
-function gradeSubmission(i){
-    const grade=parseFloat(document.getElementById(`grade_${i}`).value);
-    if(isNaN(grade)||grade<0||grade>100){alert("Enter valid grade (0-100)!");return;}
-    submissions[i].grade=grade;
-    saveSubmissions();
-    showTeacherSubmissions();
-    updateStudentRanks();
-    alert("Grade updated and rank recalculated!");
+function deleteNote(noteId) {
+  notes = notes.filter(n => n.id !== noteId);
+  saveNotes();
+  loadStudentNotes();
 }
 
-// === Section Switching ===
-function showSection(id){
-    document.querySelectorAll(".card").forEach(c=>c.style.display="none");
-    document.getElementById(id).style.display="block";
+function loadSubmissions() {
+  const teacherAssignments = assignments.filter(a => a.teacherId === currentUser.id);
+  const teacherSubmissions = submissions.filter(s => 
+    teacherAssignments.some(a => a.id === s.assignmentId)
+  );
+  
+  const container = document.getElementById("teacherSubmissionsList");
+  
+  if (teacherSubmissions.length === 0) {
+    container.innerHTML = "<p>No submissions yet.</p>";
+    return;
+  }
+
+  container.innerHTML = teacherSubmissions.map(submission => {
+    const assignment = assignments.find(a => a.id === submission.assignmentId);
+    const filesHtml = submission.files && submission.files.length > 0 ? 
+      `<div><strong>Submitted Files:</strong><br>${submission.files.map(f => 
+        `<div class="file-actions">
+          <button class="file-action-btn view" onclick="viewSubmissionFile('${f.name}', '${f.type}', ${submission.id})" title="View ${f.name}">👁️ View</button>
+          <button class="file-action-btn download" onclick="downloadSubmissionFile('${f.name}', '${f.type}', ${submission.id})" title="Download ${f.name}">📥 Download</button>
+          <span class="file-name">${f.name} (${(f.size / 1024).toFixed(1)} KB)</span>
+        </div>`
+      ).join('')}</div>` : '';
+    
+    return `
+      <div class="submission-item">
+        <h4>${assignment.title}</h4>
+        <p><strong>Course:</strong> ${assignment.courseName}</p>
+        <p><strong>Student:</strong> ${submission.studentName}</p>
+        <p><strong>Submitted:</strong> ${submission.submittedAt}</p>
+        ${submission.content ? `
+          <p><strong>Text Content:</strong></p>
+          <div style="background: #f8f9fa; padding: 10px; border-radius: 5px; margin: 10px 0; border-left: 3px solid #007bff;">
+            ${submission.content}
+          </div>
+        ` : ''}
+        ${filesHtml}
+        ${submission.grade !== null ? 
+          `<p><strong>Grade:</strong> ${submission.grade}/${assignment.totalMarks || 100}</p>
+           <button class="btn-small btn-warning" onclick="updateGrade(${submission.id}, ${submission.grade})">Update Grade</button>` :
+          `<div>
+            <input type="number" class="grade-input" id="grade_${submission.id}" placeholder="Grade (0-${assignment.totalMarks || 100})" min="0" max="${assignment.totalMarks || 100}">
+            <button class="btn-small btn-success" onclick="gradeSubmission(${submission.id})">Grade</button>
+           </div>`
+        }
+      </div>
+    `;
+  }).join('');
 }
 
-function logout(){
-    currentUser=null;
-    document.getElementById("studentDashboard").style.display="none";
-    document.getElementById("teacherDashboard").style.display="none";
-    document.getElementById("authContainer").style.display="block";
+function generateSubmissionContent(fileName, fileExt, submissionId) {
+  const submission = submissions.find(s => s.id === submissionId);
+  const assignment = assignments.find(a => a.id === submission.assignmentId);
+  
+  const submissionTypes = [
+    'Research Report', 'Lab Analysis', 'Case Study Solution', 'Project Documentation', 'Essay Response',
+    'Problem Solution', 'Presentation Script', 'Group Work Contribution', 'Literature Analysis', 'Technical Report'
+  ];
+  
+  const randomType = submissionTypes[Math.floor(Math.random() * submissionTypes.length)];
+  
+  return `STUDENT SUBMISSION - ${randomType.toUpperCase()}
+${fileName}
+${'='.repeat(60)}
+
+ASSIGNMENT: ${assignment.title}
+COURSE: ${assignment.courseName}
+STUDENT: ${submission.studentName}
+SUBMITTED: ${submission.submittedAt}
+${submission.grade !== null ? `GRADE: ${submission.grade}/${assignment.totalMarks || 100}` : 'GRADE: Pending'}
+
+${'='.repeat(60)}
+
+EXECUTIVE SUMMARY
+
+This submission addresses the requirements outlined in the assignment "${assignment.title}". 
+The work demonstrates understanding of key concepts and applies theoretical knowledge 
+to practical scenarios as requested.
+
+INTRODUCTION
+
+The purpose of this ${randomType.toLowerCase()} is to analyze and present findings related to 
+the course material covered in ${assignment.courseName}. This document provides 
+comprehensive coverage of the assigned topics with supporting evidence and analysis.
+
+MAIN CONTENT
+
+1. THEORETICAL FRAMEWORK
+   The foundational concepts relevant to this assignment include:
+   • Core principles and methodologies
+   • Historical context and development
+   • Current applications in the field
+   • Emerging trends and future directions
+
+2. ANALYSIS AND FINDINGS
+   Based on research and course materials, the following observations were made:
+   • Data analysis reveals significant patterns
+   • Theoretical models align with practical applications
+   • Case studies support the main arguments
+   • Evidence-based conclusions are drawn
+
+3. METHODOLOGY
+   The approach taken for this assignment involved:
+   • Literature review of relevant sources
+   • Application of course concepts
+   • Critical analysis of case studies
+   • Synthesis of findings and recommendations
+
+4. RESULTS AND DISCUSSION
+   Key findings from this work include:
+   • Validation of theoretical concepts
+   • Practical implications for the field
+   • Areas for further research
+   • Recommendations for implementation
+
+CONCLUSION
+
+This submission successfully addresses the assignment requirements by:
+- Demonstrating understanding of course concepts
+- Applying theoretical knowledge to practical scenarios
+- Providing evidence-based analysis and conclusions
+- Meeting all specified formatting and content requirements
+
+The work shows comprehensive engagement with the course material and 
+presents well-reasoned arguments supported by appropriate evidence.
+
+REFERENCES
+
+1. Course Textbook - Primary source material
+2. Academic Journal Articles - Peer-reviewed research
+3. Industry Reports - Current market analysis
+4. Case Study Materials - Real-world applications
+5. Supplementary Readings - Additional context
+
+APPENDICES
+
+Appendix A: Data Tables and Charts
+Appendix B: Detailed Calculations
+Appendix C: Supporting Documentation
+Appendix D: Additional Resources
+
+---
+SUBMISSION DETAILS
+File Format: ${fileExt.toUpperCase()}
+Word Count: ${Math.floor(Math.random() * 1000) + 1500} words
+Submission Date: ${submission.submittedAt}
+Student ID: STU${submission.studentId}
+Assignment ID: ASG${assignment.id}
+
+This document represents original work completed for academic purposes.
+All sources have been properly cited and referenced according to academic standards.
+
+© ${new Date().getFullYear()} - Student Academic Work
+Generated for LMS Evaluation System`;
+}
+
+function viewSubmissionFile(fileName, fileType, submissionId) {
+  const content = generateSubmissionContent(fileName, fileName.split('.').pop().toLowerCase(), submissionId);
+  const submission = submissions.find(s => s.id === submissionId);
+  
+  showFileModal(`${submission.studentName} - ${fileName}`, content, fileName.split('.').pop().toLowerCase(), 'submission');
+}
+
+function downloadSubmissionFile(fileName, fileType, submissionId) {
+  const content = generateSubmissionContent(fileName, fileName.split('.').pop().toLowerCase(), submissionId);
+  const submission = submissions.find(s => s.id === submissionId);
+  const fileExt = fileName.split('.').pop().toLowerCase();
+  
+  // Determine MIME type
+  let mimeType = 'text/plain';
+  switch (fileExt) {
+    case 'pdf':
+      mimeType = 'application/pdf';
+      break;
+    case 'doc':
+    case 'docx':
+      mimeType = 'application/msword';
+      break;
+    case 'ppt':
+    case 'pptx':
+      mimeType = 'application/vnd.ms-powerpoint';
+      break;
+    case 'txt':
+      mimeType = 'text/plain';
+      break;
+  }
+  
+  const blob = new Blob([content], { type: mimeType });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${submission.studentName}_${fileName}`;
+  document.body.appendChild(a);
+  a.click();
+  window.URL.revokeObjectURL(url);
+  document.body.removeChild(a);
+  
+  // Show success notification
+  showDownloadNotification(`${submission.studentName} - ${fileName}`);
+}
+
+function updateGrade(submissionId, currentGrade) {
+  const newGrade = prompt(`Update grade (current: ${currentGrade}/100):`, currentGrade);
+  
+  if (newGrade === null) return; // User cancelled
+  
+  const grade = parseInt(newGrade);
+  if (isNaN(grade) || grade < 0 || grade > 100) {
+    alert("Please enter a valid grade between 0 and 100");
+    return;
+  }
+
+  const submission = submissions.find(s => s.id === submissionId);
+  const assignment = assignments.find(a => a.id === submission.assignmentId);
+  submission.grade = grade;
+  submission.gradedAt = new Date().toLocaleString();
+  saveSubmissions();
+  
+  // Create notification for student
+  createNotification(
+    submission.studentId,
+    'success',
+    'Assignment Graded',
+    `Your assignment "${assignment.title}" has been graded. You scored ${grade}/${assignment.totalMarks || 100}.`,
+    assignment.id
+  );
+  
+  loadSubmissions();
 }
 </script>
-</body>
+
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98febb97f1ae9a77',t:'MTc2MDY5Mjk2MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>

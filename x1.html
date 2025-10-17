@@ -1,69 +1,3 @@
-<style>
-/* ===== BODY ===== */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    /* Gradient background for login page */
-    background: linear-gradient(135deg, #74ebd5, #ACB6E5);
-}
-
-/* ===== HEADER ===== */
-header {
-    background-color: #4CAF50;
-    color: white;
-    text-align: center;
-    padding: 20px;
-    font-size: 24px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
-
-/* ===== LOGIN / REGISTER ===== */
-.container {
-    width: 400px;
-    margin: 60px auto;
-    background: rgba(255, 255, 255, 0.95);
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-    transition: 0.3s;
-}
-.container:hover {
-    transform: translateY(-5px);
-}
-h2 {
-    text-align: center;
-    color: #333;
-    font-family: 'Poppins', sans-serif;
-}
-input, select, button, textarea {
-    width: 100%;
-    padding: 12px;
-    margin: 8px 0;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    font-family: inherit;
-    transition: 0.3s;
-}
-input:focus, select:focus, textarea:focus {
-    border-color: #4CAF50;
-    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
-    outline: none;
-}
-button {
-    background-color: #4CAF50;
-    color: white;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 600;
-    transition: 0.3s;
-}
-button:hover {
-    background-color: #45a049;
-}
-
-/* ===== DASHBOARD & OTHERS ===== */
-/* Keep the rest of your existing styles for dashboards, cards, nav, tables unchanged */
-</style>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -71,34 +5,274 @@ button:hover {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LMS Project - Assignments, Notes & Evaluation</title>
 <style>
-body{font-family:Arial,sans-serif;background-color:#f4f4f4;margin:0}
-header{background-color:#4CAF50;color:white;text-align:center;padding:20px;font-size:24px}
-.container{width:400px;margin:40px auto;background:white;padding:25px;border-radius:8px;box-shadow:0 0 10px rgba(0,0,0,0.2)}
-h2{text-align:center;color:#333}
-input,select,button,textarea{width:100%;padding:10px;margin:8px 0;border-radius:5px;border:1px solid #ccc;font-family:inherit}
-button{background-color:#4CAF50;color:white;cursor:pointer;font-size:16px}
-button:hover{background-color:#45a049}
-.dashboard{display:none;padding:20px}
-nav{background-color:#333;overflow:hidden}
-nav a{color:white;float:left;padding:14px 20px;text-decoration:none}
-nav a:hover{background-color:#ddd;color:black}
-.card{background:white;padding:15px;margin:15px;border-radius:8px;box-shadow:0 0 8px rgba(0,0,0,0.1)}
-table{width:100%;border-collapse:collapse}
-th,td{border:1px solid #ddd;padding:8px;text-align:left}
-th{background-color:#4CAF50;color:white}
+body {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  margin: 0;
+  min-height: 100%;
+}
+
+html {
+  height: 100%;
+}
+
+header {
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  color: white;
+  text-align: center;
+  padding: 25px;
+  font-size: 28px;
+  font-weight: bold;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.container {
+  max-width: 450px;
+  margin: 40px auto;
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 25px;
+  font-weight: 600;
+}
+
+input, select, button, textarea {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 2px solid #e1e1e1;
+  font-family: inherit;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+input[type="file"] {
+  padding: 8px;
+  background: #f8f9fa;
+  border: 2px dashed #4CAF50;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: #4CAF50;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+button {
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+.dashboard {
+  display: none;
+  min-height: calc(100% - 100px);
+}
+
+nav {
+  background: linear-gradient(135deg, #333 0%, #555 100%);
+  overflow: hidden;
+  border-radius: 10px;
+  margin: 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+nav a {
+  color: white;
+  float: left;
+  padding: 16px 24px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+nav a:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.card {
+  background: white;
+  padding: 25px;
+  margin: 20px;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+  border-left: 5px solid #4CAF50;
+}
+
+.card h3 {
+  color: #333;
+  margin-top: 0;
+  font-weight: 600;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+th, td {
+  border: 1px solid #e1e1e1;
+  padding: 12px;
+  text-align: left;
+}
+
+th {
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  color: white;
+  font-weight: 600;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.course-item {
+  background: #f8f9fa;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 10px;
+  border-left: 4px solid #4CAF50;
+}
+
+.assignment-item {
+  background: #fff3cd;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 10px;
+  border-left: 4px solid #ffc107;
+}
+
+.note-item {
+  background: #d1ecf1;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 10px;
+  border-left: 4px solid #17a2b8;
+}
+
+.submission-item {
+  background: #f8d7da;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 10px;
+  border-left: 4px solid #dc3545;
+}
+
+.btn-small {
+  padding: 8px 16px;
+  margin: 5px;
+  font-size: 14px;
+  width: auto;
+  display: inline-block;
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+}
+
+.btn-warning {
+  background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+}
+
+.grade-input {
+  width: 80px;
+  display: inline-block;
+  margin: 0 10px;
+}
+
+#msg {
+  color: #dc3545;
+  text-align: center;
+  font-weight: 500;
+  margin-top: 15px;
+}
+
+.success-msg {
+  color: #28a745 !important;
+}
+
+.enrolled {
+  background: #d4edda !important;
+  border-left-color: #28a745 !important;
+}
+
+.file-info {
+  background: #e9ecef;
+  padding: 8px;
+  border-radius: 5px;
+  margin: 5px 0;
+  font-size: 12px;
+}
+
+.upload-section {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  margin: 10px 0;
+  border: 1px solid #dee2e6;
+}
 </style>
 </head>
 <body>
 
-<header>Learning Management System (LMS)</header>
+<header>Virtual Learning Environment</header>
 
 <!-- LOGIN -->
 <div class="container" id="authContainer">
   <h2>Login / Register</h2>
-  <select id="role"><option value="student">Student</option><option value="teacher">Teacher</option></select>
-  <input id="name" placeholder="Full Name"><input id="username" placeholder="Username"><input type="password" id="password" placeholder="Password">
-  <button onclick="register()">Register</button><button onclick="login()">Login</button>
-  <p id="msg" style="color:red;text-align:center;"></p>
+  <select id="role">
+    <option value="student">Student</option>
+    <option value="teacher">Teacher</option>
+  </select>
+  <input type="email" id="email" placeholder="Email Address">
+  <input id="username" placeholder="Username">
+  <input type="password" id="password" placeholder="Password">
+  <button onclick="register()">Register</button>
+  <button onclick="login()">Login</button>
+  <button onclick="showForgotPassword()" class="btn-warning">Forgot Password?</button>
+  <p id="msg"></p>
+</div>
+
+<!-- FORGOT PASSWORD -->
+<div class="container" id="forgotPasswordContainer" style="display:none;">
+  <h2>Reset Password</h2>
+  <input type="email" id="resetEmail" placeholder="Enter your email address">
+  <button onclick="sendOTP()">Send OTP</button>
+  <div id="otpSection" style="display:none;">
+    <input id="otpCode" placeholder="Enter 6-digit OTP" maxlength="6">
+    <input type="password" id="newPassword" placeholder="New Password">
+    <button onclick="verifyOTPAndReset()">Reset Password</button>
+  </div>
+  <button onclick="backToLogin()" class="btn-small">Back to Login</button>
+  <p id="resetMsg"></p>
 </div>
 
 <!-- STUDENT DASHBOARD -->
@@ -106,19 +280,42 @@ th{background-color:#4CAF50;color:white}
   <nav>
     <a href="#" onclick="showSection('studentInfo')">My Info</a>
     <a href="#" onclick="showSection('studentCourses')">Courses</a>
+    <a href="#" onclick="showSection('studentAssignments')">Assignments</a>
+    <a href="#" onclick="showSection('studentCourseNotes')">Course Notes</a>
+    <a href="#" onclick="showSection('studentNotes')">My Notes</a>
     <a href="#" onclick="logout()">Logout</a>
   </nav>
-  <h2>Welcome, <span id="studentName"></span> (Student)</h2>
+  <h2 style="text-align: center; color: white; margin: 20px;">Welcome, <span id="studentName"></span> (Student)</h2>
 
   <div id="studentInfo" class="card">
-    <h3>Profile</h3>
+    <h3>📋 Profile Information</h3>
     <p><b>Name:</b> <span id="studentFullName"></span></p>
+    <p><b>Email:</b> <span id="studentEmail"></span></p>
     <p><b>Username:</b> <span id="studentUser"></span></p>
+    <p><b>Role:</b> Student</p>
   </div>
 
   <div id="studentCourses" class="card" style="display:none;">
-    <h3>Available Courses</h3>
+    <h3>📚 Available Courses</h3>
     <div id="studentCoursesList"></div>
+  </div>
+
+  <div id="studentAssignments" class="card" style="display:none;">
+    <h3>📝 My Assignments</h3>
+    <div id="studentAssignmentsList"></div>
+  </div>
+
+  <div id="studentNotes" class="card" style="display:none;">
+    <h3>📖 My Personal Notes</h3>
+    <input id="noteTitle" placeholder="Note Title">
+    <textarea id="noteContent" placeholder="Write your notes here..." rows="4"></textarea>
+    <button onclick="addNote()">Add Note</button>
+    <div id="studentNotesList"></div>
+  </div>
+
+  <div id="studentCourseNotes" class="card" style="display:none;">
+    <h3>📚 Course Notes</h3>
+    <div id="studentCourseNotesList"></div>
   </div>
 </div>
 
@@ -127,245 +324,1156 @@ th{background-color:#4CAF50;color:white}
   <nav>
     <a href="#" onclick="showSection('teacherInfo')">My Info</a>
     <a href="#" onclick="showSection('teacherCourses')">My Courses</a>
+    <a href="#" onclick="showSection('teacherNotes')">Course Notes</a>
+    <a href="#" onclick="showSection('assignments')">Assignments</a>
     <a href="#" onclick="showSection('submissions')">Evaluate</a>
     <a href="#" onclick="logout()">Logout</a>
   </nav>
-  <h2>Welcome, <span id="teacherName"></span> (Teacher)</h2>
+  <h2 style="text-align: center; color: white; margin: 20px;">Welcome, <span id="teacherName"></span> (Teacher)</h2>
 
   <div id="teacherInfo" class="card">
-    <h3>Profile</h3>
+    <h3>👨‍🏫 Profile Information</h3>
     <p><b>Name:</b> <span id="teacherFullName"></span></p>
+    <p><b>Email:</b> <span id="teacherEmail"></span></p>
     <p><b>Username:</b> <span id="teacherUser"></span></p>
+    <p><b>Role:</b> Teacher</p>
   </div>
 
   <div id="teacherCourses" class="card" style="display:none;">
-    <h3>Manage Courses</h3>
+    <h3>📚 Manage Courses</h3>
     <input id="courseTitle" placeholder="Course Title">
-    <textarea id="courseDesc" placeholder="Course Description"></textarea>
+    <textarea id="courseDesc" placeholder="Course Description" rows="3"></textarea>
+    <div class="upload-section">
+      <label>📎 Course Materials (Optional):</label>
+      <input type="file" id="courseMaterials" multiple accept=".pdf,.doc,.docx,.ppt,.pptx,.txt">
+      <div id="courseFileList"></div>
+    </div>
     <button onclick="addCourse()">Add Course</button>
     <div id="teacherCoursesList"></div>
   </div>
 
+  <div id="teacherNotes" class="card" style="display:none;">
+    <h3>📝 Course Notes</h3>
+    <select id="notesCourse">
+      <option value="">Select Course</option>
+    </select>
+    <input id="teacherNoteTitle" placeholder="Note Title">
+    <textarea id="teacherNoteContent" placeholder="Note content..." rows="4"></textarea>
+    <div class="upload-section">
+      <label>📎 Note Files (Optional):</label>
+      <input type="file" id="noteFiles" multiple accept=".pdf,.doc,.docx,.ppt,.pptx,.txt">
+      <div id="noteFileList"></div>
+    </div>
+    <button onclick="addTeacherNote()">Add Note</button>
+    <div id="teacherNotesList"></div>
+  </div>
+
+  <div id="assignments" class="card" style="display:none;">
+    <h3>📝 Manage Assignments</h3>
+    <select id="assignmentCourse">
+      <option value="">Select Course</option>
+    </select>
+    <input id="assignmentTitle" placeholder="Assignment Title">
+    <textarea id="assignmentDesc" placeholder="Assignment Description" rows="3"></textarea>
+    <input type="date" id="assignmentDue" placeholder="Due Date">
+    <input type="number" id="assignmentMarks" placeholder="Total Marks" min="1" max="1000" value="100">
+    <div class="upload-section">
+      <label>📎 Assignment Files (Optional):</label>
+      <input type="file" id="assignmentFiles" multiple accept=".pdf,.doc,.docx,.txt">
+      <div id="assignmentFileList"></div>
+    </div>
+    <button onclick="addAssignment()">Create Assignment</button>
+    <div id="teacherAssignmentsList"></div>
+  </div>
+
   <div id="submissions" class="card" style="display:none;">
-    <h3>Evaluate Assignments</h3>
+    <h3>✅ Evaluate Assignments</h3>
     <div id="teacherSubmissionsList"></div>
   </div>
 </div>
 
 <script>
-let users=JSON.parse(localStorage.getItem("users"))||[];
-let courses=JSON.parse(localStorage.getItem("courses"))||[];
-let uploads=JSON.parse(localStorage.getItem("uploads"))||[];
-let notes=JSON.parse(localStorage.getItem("notes"))||[];
-let submissions=JSON.parse(localStorage.getItem("submissions"))||[];
-let currentUser=null;
+let users = JSON.parse(localStorage.getItem("users")) || [];
+let courses = JSON.parse(localStorage.getItem("courses")) || [];
+let assignments = JSON.parse(localStorage.getItem("assignments")) || [];
+let notes = JSON.parse(localStorage.getItem("notes")) || [];
+let submissions = JSON.parse(localStorage.getItem("submissions")) || [];
+let enrollments = JSON.parse(localStorage.getItem("enrollments")) || [];
+let teacherNotes = JSON.parse(localStorage.getItem("teacherNotes")) || [];
+let currentUser = null;
+let otpData = {}; // Store OTP information temporarily
 
-function saveUsers(){localStorage.setItem("users",JSON.stringify(users))}
-function saveCourses(){localStorage.setItem("courses",JSON.stringify(courses))}
-function saveUploads(){localStorage.setItem("uploads",JSON.stringify(uploads))}
-function saveNotes(){localStorage.setItem("notes",JSON.stringify(notes))}
-function saveSubmissions(){localStorage.setItem("submissions",JSON.stringify(submissions))}
+function saveUsers() { localStorage.setItem("users", JSON.stringify(users)); }
+function saveCourses() { localStorage.setItem("courses", JSON.stringify(courses)); }
+function saveAssignments() { localStorage.setItem("assignments", JSON.stringify(assignments)); }
+function saveNotes() { localStorage.setItem("notes", JSON.stringify(notes)); }
+function saveSubmissions() { localStorage.setItem("submissions", JSON.stringify(submissions)); }
+function saveEnrollments() { localStorage.setItem("enrollments", JSON.stringify(enrollments)); }
+function saveTeacherNotes() { localStorage.setItem("teacherNotes", JSON.stringify(teacherNotes)); }
 
-// === AUTH ===
-function register(){
- const role=roleEl.value,name=nameEl.value,user=userEl.value,pass=passEl.value;
- const msg=document.getElementById("msg");
- if(!name||!user||!pass){msg.textContent="Fill all fields";return;}
- if(users.find(u=>u.username===user)){msg.textContent="Username exists";return;}
- users.push({role,name,username:user,password:pass});saveUsers();
- msg.style.color="green";msg.textContent="Registered successfully!";
-}
-const nameEl=document.getElementById("name"),userEl=document.getElementById("username"),passEl=document.getElementById("password"),roleEl=document.getElementById("role");
-
-function login(){
- const user=users.find(u=>u.username===userEl.value&&u.password===passEl.value);
- const msg=document.getElementById("msg");
- if(!user){msg.textContent="Invalid login";return;}
- currentUser=user;
- document.getElementById("authContainer").style.display="none";
- if(user.role==="teacher")showTeacherDashboard();else showStudentDashboard();
+function showMessage(msg, isSuccess = false) {
+  const msgEl = document.getElementById("msg");
+  msgEl.textContent = msg;
+  msgEl.className = isSuccess ? "success-msg" : "";
 }
 
-function showTeacherDashboard(){
- const d=document.getElementById("teacherDashboard");d.style.display="block";
- document.getElementById("teacherName").textContent=currentUser.name;
- document.getElementById("teacherFullName").textContent=currentUser.name;
- document.getElementById("teacherUser").textContent=currentUser.username;
- showTeacherCourses();showTeacherSubmissions();
+function handleFileUpload(files) {
+  const fileData = [];
+  for (let file of files) {
+    fileData.push({
+      name: file.name,
+      size: file.size,
+      type: file.type,
+      lastModified: file.lastModified
+    });
+  }
+  return fileData;
 }
 
-function showStudentDashboard(){
- const d=document.getElementById("studentDashboard");d.style.display="block";
- document.getElementById("studentName").textContent=currentUser.name;
- document.getElementById("studentFullName").textContent=currentUser.name;
- document.getElementById("studentUser").textContent=currentUser.username;
- showStudentCourses();
+function displayFileList(files, containerId) {
+  const container = document.getElementById(containerId);
+  if (files.length === 0) {
+    container.innerHTML = "";
+    return;
+  }
+  
+  container.innerHTML = files.map(file => `
+    <div class="file-info">
+      📄 ${file.name} (${(file.size / 1024).toFixed(1)} KB)
+    </div>
+  `).join('');
 }
 
-// === COURSES ===
-function addCourse(){
- const title=document.getElementById("courseTitle").value.trim();
- const desc=document.getElementById("courseDesc").value.trim();
- if(!title||!desc){alert("Fill all fields!");return;}
- courses.push({title,desc,teacher:currentUser.name});saveCourses();
- showTeacherCourses();alert("Course added!");
- document.getElementById("courseTitle").value="";document.getElementById("courseDesc").value="";
+function register() {
+  const email = document.getElementById("email").value.trim();
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value.trim();
+  const role = document.getElementById("role").value;
+
+  if (!email || !username || !password) {
+    showMessage("Please fill in all fields");
+    return;
+  }
+
+  // Validate email format
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    showMessage("Please enter a valid email address");
+    return;
+  }
+
+  if (users.find(u => u.username === username)) {
+    showMessage("Username already exists");
+    return;
+  }
+
+  if (users.find(u => u.email === email)) {
+    showMessage("Email already exists");
+    return;
+  }
+
+  const user = {
+    id: Date.now(),
+    name: username,
+    email,
+    username,
+    password,
+    role
+  };
+
+  users.push(user);
+  saveUsers();
+  showMessage("Registration successful! Please login.", true);
+  
+  // Clear form
+  document.getElementById("email").value = "";
+  document.getElementById("username").value = "";
+  document.getElementById("password").value = "";
 }
 
-function showTeacherCourses(){
- const list=document.getElementById("teacherCoursesList");
- const myCourses=courses.filter(c=>c.teacher===currentUser.name);
- list.innerHTML="";
- myCourses.forEach((c,i)=>{
-  list.innerHTML+=`
-  <div style="border:1px solid #ccc;padding:10px;margin:5px;">
-   <b>${c.title}</b><br><small>${c.desc}</small><br>
-   <button onclick="openCourseUploads('${c.title}')">Manage Assignments</button>
-   <button onclick="openCourseNotes('${c.title}')">Manage Notes</button>
-   <button onclick="deleteCourse(${i})">Delete</button>
-  </div>`;
- });
+function login() {
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value.trim();
+
+  if (!username || !password) {
+    showMessage("Please enter username and password");
+    return;
+  }
+
+  const user = users.find(u => u.username === username && u.password === password);
+  
+  if (!user) {
+    showMessage("Invalid username or password");
+    return;
+  }
+
+  currentUser = user;
+  document.getElementById("authContainer").style.display = "none";
+  
+  if (user.role === "student") {
+    showStudentDashboard();
+  } else {
+    showTeacherDashboard();
+  }
 }
 
-function deleteCourse(i){
- const myCourses=courses.filter(c=>c.teacher===currentUser.name);
- const del=myCourses[i];courses=courses.filter(c=>c!==del);saveCourses();showTeacherCourses();
+function logout() {
+  currentUser = null;
+  document.getElementById("authContainer").style.display = "block";
+  document.getElementById("studentDashboard").style.display = "none";
+  document.getElementById("teacherDashboard").style.display = "none";
+  document.getElementById("forgotPasswordContainer").style.display = "none";
+  
+  // Clear form
+  document.getElementById("username").value = "";
+  document.getElementById("password").value = "";
+  document.getElementById("email").value = "";
+  showMessage("");
 }
 
-// === ASSIGNMENTS (UPLOADS) ===
-function openCourseUploads(courseTitle){
- const courseUploads=uploads.filter(u=>u.course===courseTitle);
- let html=`<h3>${courseTitle} - Assignments</h3>
- <input id='uTitle' placeholder='Assignment Title'>
- <textarea id='uDesc' placeholder='Description'></textarea>
- <label>Due Date:</label><input type='date' id='uDue'>
- <label>Marks:</label><input type='number' id='uMarks' placeholder='Total Marks'>
- <input type='file' id='uFile'>
- <button onclick="addUpload('${courseTitle}')">Add Assignment</button><hr>`;
- courseUploads.forEach(u=>{
-  html+=`<div><b>${u.title}</b> (${u.marks} marks, Due: ${u.due})
-  <br><small>${u.desc}</small><br>
-  <a href="${u.fileURL}" target="_blank">View</a></div><hr>`;
- });
- document.getElementById("teacherCoursesList").innerHTML=html+`<button onclick="showTeacherCourses()">Back</button>`;
+function showStudentDashboard() {
+  document.getElementById("studentDashboard").style.display = "block";
+  document.getElementById("studentName").textContent = currentUser.name;
+  document.getElementById("studentFullName").textContent = currentUser.name;
+  document.getElementById("studentEmail").textContent = currentUser.email;
+  document.getElementById("studentUser").textContent = currentUser.username;
+  
+  showSection('studentInfo');
+  loadStudentCourses();
+  loadStudentAssignments();
+  loadStudentNotes();
+  loadStudentCourseNotes();
 }
 
-function addUpload(courseTitle){
- const t=document.getElementById("uTitle").value,d=document.getElementById("uDesc").value,
- due=document.getElementById("uDue").value,marks=document.getElementById("uMarks").value,f=document.getElementById("uFile");
- if(!t||!d||!f.files.length||!due||!marks){alert("Fill all fields");return;}
- const file=f.files[0];const url=URL.createObjectURL(file);
- uploads.push({course:courseTitle,title:t,desc:d,due,marks,fileName:file.name,fileURL:url,uploadedBy:currentUser.name});
- saveUploads();openCourseUploads(courseTitle);
+function showTeacherDashboard() {
+  document.getElementById("teacherDashboard").style.display = "block";
+  document.getElementById("teacherName").textContent = currentUser.name;
+  document.getElementById("teacherFullName").textContent = currentUser.name;
+  document.getElementById("teacherEmail").textContent = currentUser.email;
+  document.getElementById("teacherUser").textContent = currentUser.username;
+  
+  showSection('teacherInfo');
+  loadTeacherCourses();
+  loadAssignmentCourses();
+  loadNotesCourses();
+  loadTeacherAssignments();
+  loadTeacherNotes();
+  loadSubmissions();
 }
 
-// === NOTES (NEW FEATURE) ===
-function openCourseNotes(courseTitle){
- const courseNotes=notes.filter(n=>n.course===courseTitle);
- let html=`<h3>${courseTitle} - Notes</h3>
- <input id='nTitle' placeholder='Note Title'>
- <textarea id='nDesc' placeholder='Description'></textarea>
- <input type='file' id='nFile'>
- <button onclick="addNote('${courseTitle}')">Add Note</button><hr>`;
- courseNotes.forEach(n=>{
-  html+=`<div><b>${n.title}</b><br><small>${n.desc}</small><br>
-  <a href="${n.fileURL}" target="_blank">View Note</a></div><hr>`;
- });
- document.getElementById("teacherCoursesList").innerHTML=html+`<button onclick="showTeacherCourses()">Back</button>`;
+function showSection(sectionId) {
+  // Hide all sections
+  const sections = ['studentInfo', 'studentCourses', 'studentAssignments', 'studentNotes', 'studentCourseNotes',
+                   'teacherInfo', 'teacherCourses', 'teacherNotes', 'assignments', 'submissions'];
+  
+  sections.forEach(id => {
+    const element = document.getElementById(id);
+    if (element) element.style.display = 'none';
+  });
+  
+  // Show selected section
+  const targetSection = document.getElementById(sectionId);
+  if (targetSection) targetSection.style.display = 'block';
 }
 
-function addNote(courseTitle){
- const t=document.getElementById("nTitle").value,d=document.getElementById("nDesc").value,f=document.getElementById("nFile");
- if(!t||!d||!f.files.length){alert("Fill all fields");return;}
- const file=f.files[0];const url=URL.createObjectURL(file);
- notes.push({course:courseTitle,title:t,desc:d,fileName:file.name,fileURL:url,uploadedBy:currentUser.name});
- saveNotes();openCourseNotes(courseTitle);
+function addCourse() {
+  const title = document.getElementById("courseTitle").value.trim();
+  const desc = document.getElementById("courseDesc").value.trim();
+  const fileInput = document.getElementById("courseMaterials");
+
+  if (!title || !desc) {
+    alert("Please fill in all course fields");
+    return;
+  }
+
+  const files = fileInput.files ? handleFileUpload(fileInput.files) : [];
+
+  const course = {
+    id: Date.now(),
+    title,
+    description: desc,
+    teacherId: currentUser.id,
+    teacherName: currentUser.name,
+    materials: files,
+    createdAt: new Date().toLocaleString()
+  };
+
+  courses.push(course);
+  saveCourses();
+  
+  document.getElementById("courseTitle").value = "";
+  document.getElementById("courseDesc").value = "";
+  document.getElementById("courseMaterials").value = "";
+  document.getElementById("courseFileList").innerHTML = "";
+  
+  loadTeacherCourses();
+  loadAssignmentCourses();
 }
 
-// === STUDENT VIEW ===
-function showStudentCourses(){
- const list=document.getElementById("studentCoursesList");list.innerHTML="";
- courses.forEach(c=>{
-  list.innerHTML+=`<div style='border:1px solid #ccc;padding:10px;margin:5px;'>
-  <b>${c.title}</b><br><small>${c.desc}</small><br><i>By: ${c.teacher}</i><br>
-  <button onclick="openStudentCourse('${c.title}')">View Assignments</button>
-  <button onclick="openStudentNotes('${c.title}')">View Notes</button></div>`;
- });
+// Add event listener for course file selection
+document.addEventListener('DOMContentLoaded', function() {
+  const courseMaterials = document.getElementById("courseMaterials");
+  if (courseMaterials) {
+    courseMaterials.addEventListener('change', function() {
+      const files = this.files ? handleFileUpload(this.files) : [];
+      displayFileList(files, 'courseFileList');
+    });
+  }
+});
+
+function loadTeacherCourses() {
+  const teacherCourses = courses.filter(c => c.teacherId === currentUser.id);
+  const container = document.getElementById("teacherCoursesList");
+  
+  if (teacherCourses.length === 0) {
+    container.innerHTML = "<p>No courses created yet.</p>";
+    return;
+  }
+
+  container.innerHTML = teacherCourses.map(course => {
+    const enrolledCount = enrollments.filter(e => e.courseId === course.id).length;
+    const materialsHtml = course.materials && course.materials.length > 0 ? 
+      `<div><strong>Materials:</strong> ${course.materials.map(f => f.name).join(', ')}</div>` : '';
+    
+    return `
+      <div class="course-item">
+        <h4>${course.title}</h4>
+        <p>${course.description}</p>
+        ${materialsHtml}
+        <p><strong>Enrolled Students:</strong> ${enrolledCount}</p>
+        <p><small>Created: ${course.createdAt || 'N/A'}</small></p>
+        <button class="btn-small btn-danger" onclick="deleteCourse(${course.id})">Delete Course</button>
+      </div>
+    `;
+  }).join('');
 }
 
-function openStudentCourse(courseTitle){
- const courseUploads=uploads.filter(u=>u.course===courseTitle);
- let html=`<h3>${courseTitle} - Assignments</h3>`;
- courseUploads.forEach(u=>{
-  const today=new Date().toISOString().split("T")[0];
-  const status=(today>u.due)?"<span style='color:red'>(Past Due)</span>":"<span style='color:green'>(Active)</span>";
-  html+=`<div style='border-bottom:1px solid #ccc;padding:5px;'>
-  <b>${u.title}</b> - ${u.fileName}<br><small>${u.desc}</small><br>
-  Due: ${u.due} ${status}, Marks: ${u.marks}<br>
-  <a href="${u.fileURL}" target="_blank">View Assignment</a><br>
-  <b>Submit:</b><input type='file' id='file_${u.title}'><button onclick="submitAssignment('${courseTitle}','${u.title}')">Submit</button>
-  <div id='status_${u.title}'></div></div>`;
- });
- html+=`<button onclick="showStudentCourses()">Back</button>`;
- document.getElementById("studentCoursesList").innerHTML=html;
+function loadStudentCourses() {
+  const container = document.getElementById("studentCoursesList");
+  
+  if (courses.length === 0) {
+    container.innerHTML = "<p>No courses available yet.</p>";
+    return;
+  }
+
+  container.innerHTML = courses.map(course => {
+    const isEnrolled = enrollments.some(e => e.courseId === course.id && e.studentId === currentUser.id);
+    const enrolledCount = enrollments.filter(e => e.courseId === course.id).length;
+    const materialsHtml = course.materials && course.materials.length > 0 ? 
+      `<div><strong>Materials:</strong> ${course.materials.map(f => f.name).join(', ')}</div>` : '';
+    
+    return `
+      <div class="course-item ${isEnrolled ? 'enrolled' : ''}">
+        <h4>${course.title} ${isEnrolled ? '✅' : ''}</h4>
+        <p>${course.description}</p>
+        <p><strong>Instructor:</strong> ${course.teacherName}</p>
+        ${materialsHtml}
+        <p><strong>Enrolled Students:</strong> ${enrolledCount}</p>
+        ${isEnrolled ? 
+          '<p><strong>Status:</strong> ✅ Enrolled</p>' :
+          `<button class="btn-small btn-success" onclick="enrollInCourse(${course.id})">Enroll in Course</button>`
+        }
+      </div>
+    `;
+  }).join('');
 }
 
-// === STUDENT NOTES VIEW ===
-function openStudentNotes(courseTitle){
- const courseNotes=notes.filter(n=>n.course===courseTitle);
- let html=`<h3>${courseTitle} - Notes</h3>`;
- if(courseNotes.length===0){html+="<p>No notes available.</p>";}
- courseNotes.forEach(n=>{
-  html+=`<div style='border-bottom:1px solid #ccc;padding:5px;'>
-  <b>${n.title}</b><br><small>${n.desc}</small><br>
-  <a href="${n.fileURL}" target="_blank">View / Download</a></div>`;
- });
- html+=`<button onclick="showStudentCourses()">Back</button>`;
- document.getElementById("studentCoursesList").innerHTML=html;
+function enrollInCourse(courseId) {
+  const enrollment = {
+    id: Date.now(),
+    courseId,
+    studentId: currentUser.id,
+    studentName: currentUser.name,
+    enrolledAt: new Date().toLocaleString()
+  };
+
+  enrollments.push(enrollment);
+  saveEnrollments();
+  loadStudentCourses();
+  loadStudentAssignments();
 }
 
-// === SUBMISSION ===
-function submitAssignment(course,title){
- const input=document.getElementById(`file_${title}`);
- if(input.files.length===0){alert("Choose file");return;}
- const file=input.files[0];const url=URL.createObjectURL(file);
- const upload=uploads.find(u=>u.course===course&&u.title===title);
- const today=new Date().toISOString().split("T")[0];
- const late=today>upload.due?"(Late)":""; 
- submissions.push({course,student:currentUser.name,title,fileName:file.name,fileURL:url,grade:"Not graded",marks:upload.marks,submittedOn:today,late});
- saveSubmissions();
- document.getElementById(`status_${title}`).innerHTML=`<small>Submitted: ${file.name} ${late}</small>`;
- alert("Submitted!");
+function deleteCourse(courseId) {
+  courses = courses.filter(c => c.id !== courseId);
+  assignments = assignments.filter(a => a.courseId !== courseId);
+  saveCourses();
+  saveAssignments();
+  loadTeacherCourses();
+  loadAssignmentCourses();
 }
 
-// === EVALUATION (TEACHER) ===
-function showTeacherSubmissions(){
- const list=document.getElementById("teacherSubmissionsList");list.innerHTML="";
- const mySubs=submissions.filter(s=>{
-  const course=courses.find(c=>c.title===s.course);
-  return course && course.teacher===currentUser.name;
- });
- if(mySubs.length===0){list.innerHTML="<p>No submissions yet.</p>";return;}
- mySubs.forEach((s,i)=>{
-  list.innerHTML+=`<div style='border-bottom:1px solid #ccc;padding:5px;'>
-  <b>${s.student}</b> submitted <b>${s.title}</b> for <i>${s.course}</i> (${s.marks} marks)<br>
-  <a href="${s.fileURL}" target="_blank">View File</a><br>
-  Submitted on: ${s.submittedOn} ${s.late}<br>
-  Grade: ${s.grade}<br>
-  <input type='number' id='grade_${i}' placeholder='Enter marks' max='${s.marks}'><button onclick="gradeSubmission(${i})">Save Grade</button></div>`;
- });
+function loadAssignmentCourses() {
+  const select = document.getElementById("assignmentCourse");
+  const teacherCourses = courses.filter(c => c.teacherId === currentUser.id);
+  
+  select.innerHTML = '<option value="">Select Course</option>' + 
+    teacherCourses.map(course => `<option value="${course.id}">${course.title}</option>`).join('');
 }
 
-function gradeSubmission(i){
- const val=document.getElementById(`grade_${i}`).value;
- if(val===""){alert("Enter marks");return;}
- submissions[i].grade=`${val}/${submissions[i].marks}`;
- saveSubmissions();showTeacherSubmissions();alert("Grade saved!");
+function addAssignment() {
+  const courseId = document.getElementById("assignmentCourse").value;
+  const title = document.getElementById("assignmentTitle").value.trim();
+  const desc = document.getElementById("assignmentDesc").value.trim();
+  const dueDate = document.getElementById("assignmentDue").value;
+  const totalMarks = parseInt(document.getElementById("assignmentMarks").value) || 100;
+  const fileInput = document.getElementById("assignmentFiles");
+
+  if (!courseId || !title || !desc || !dueDate) {
+    alert("Please fill in all assignment fields");
+    return;
+  }
+
+  const course = courses.find(c => c.id == courseId);
+  const files = fileInput.files ? handleFileUpload(fileInput.files) : [];
+
+  const assignment = {
+    id: Date.now(),
+    courseId: parseInt(courseId),
+    courseName: course.title,
+    title,
+    description: desc,
+    dueDate,
+    totalMarks,
+    teacherId: currentUser.id,
+    files: files,
+    createdAt: new Date().toLocaleString()
+  };
+
+  assignments.push(assignment);
+  saveAssignments();
+  
+  document.getElementById("assignmentCourse").value = "";
+  document.getElementById("assignmentTitle").value = "";
+  document.getElementById("assignmentDesc").value = "";
+  document.getElementById("assignmentDue").value = "";
+  document.getElementById("assignmentMarks").value = "100";
+  document.getElementById("assignmentFiles").value = "";
+  document.getElementById("assignmentFileList").innerHTML = "";
+  
+  loadTeacherAssignments();
 }
 
-// === UTILITIES ===
-function showSection(id){document.querySelectorAll(".card").forEach(c=>c.style.display="none");document.getElementById(id).style.display="block";}
-function logout(){currentUser=null;document.getElementById("studentDashboard").style.display="none";document.getElementById("teacherDashboard").style.display="none";document.getElementById("authContainer").style.display="block";}
+// Add event listener for assignment file selection
+document.addEventListener('DOMContentLoaded', function() {
+  const assignmentFiles = document.getElementById("assignmentFiles");
+  if (assignmentFiles) {
+    assignmentFiles.addEventListener('change', function() {
+      const files = this.files ? handleFileUpload(this.files) : [];
+      displayFileList(files, 'assignmentFileList');
+    });
+  }
+});
+
+function loadTeacherAssignments() {
+  const teacherAssignments = assignments.filter(a => a.teacherId === currentUser.id);
+  const container = document.getElementById("teacherAssignmentsList");
+  
+  if (teacherAssignments.length === 0) {
+    container.innerHTML = "<p>No assignments created yet.</p>";
+    return;
+  }
+
+  container.innerHTML = teacherAssignments.map(assignment => {
+    const submissionCount = submissions.filter(s => s.assignmentId === assignment.id).length;
+    const filesHtml = assignment.files && assignment.files.length > 0 ? 
+      `<div><strong>Files:</strong> ${assignment.files.map(f => f.name).join(', ')}</div>` : '';
+    
+    return `
+      <div class="assignment-item">
+        <h4>${assignment.title}</h4>
+        <p><strong>Course:</strong> ${assignment.courseName}</p>
+        <p>${assignment.description}</p>
+        ${filesHtml}
+        <p><strong>Due Date:</strong> ${assignment.dueDate}</p>
+        <p><strong>Total Marks:</strong> ${assignment.totalMarks || 100}</p>
+        <p><strong>Submissions:</strong> ${submissionCount}</p>
+        <p><small>Created: ${assignment.createdAt || 'N/A'}</small></p>
+        <button class="btn-small btn-danger" onclick="deleteAssignment(${assignment.id})">Delete Assignment</button>
+      </div>
+    `;
+  }).join('');
+}
+
+function loadStudentAssignments() {
+  const container = document.getElementById("studentAssignmentsList");
+  
+  // Only show assignments from enrolled courses
+  const enrolledCourseIds = enrollments
+    .filter(e => e.studentId === currentUser.id)
+    .map(e => e.courseId);
+  
+  const availableAssignments = assignments.filter(a => enrolledCourseIds.includes(a.courseId));
+  
+  if (availableAssignments.length === 0) {
+    container.innerHTML = "<p>No assignments available. Please enroll in courses first.</p>";
+    return;
+  }
+
+  container.innerHTML = availableAssignments.map(assignment => {
+    const userSubmission = submissions.find(s => s.assignmentId === assignment.id && s.studentId === currentUser.id);
+    const isSubmitted = !!userSubmission;
+    const grade = userSubmission ? userSubmission.grade : null;
+    const filesHtml = assignment.files && assignment.files.length > 0 ? 
+      `<div><strong>Assignment Files:</strong> ${assignment.files.map(f => f.name).join(', ')}</div>` : '';
+    
+    return `
+      <div class="assignment-item">
+        <h4>${assignment.title}</h4>
+        <p><strong>Course:</strong> ${assignment.courseName}</p>
+        <p>${assignment.description}</p>
+        ${filesHtml}
+        <p><strong>Due Date:</strong> ${assignment.dueDate}</p>
+        <p><strong>Total Marks:</strong> ${assignment.totalMarks || 100}</p>
+        ${isSubmitted ? 
+          `<p><strong>Status:</strong> ✅ Submitted</p>
+           <p><strong>Submitted:</strong> ${userSubmission.submittedAt}</p>
+           ${userSubmission.files && userSubmission.files.length > 0 ? 
+             `<p><strong>Submitted Files:</strong> ${userSubmission.files.map(f => f.name).join(', ')}</p>` : ''}
+           ${grade !== null ? `<p><strong>Grade:</strong> ${grade}/${assignment.totalMarks || 100}</p>` : '<p><strong>Grade:</strong> Pending</p>'}` :
+          `<div class="upload-section">
+             <textarea id="submission_${assignment.id}" placeholder="Write your submission here..." rows="3"></textarea>
+             <input type="file" id="submissionFiles_${assignment.id}" multiple accept=".pdf,.doc,.docx,.txt">
+             <button class="btn-small btn-success" onclick="submitAssignment(${assignment.id})">Submit Assignment</button>
+           </div>`
+        }
+      </div>
+    `;
+  }).join('');
+}
+
+function submitAssignment(assignmentId) {
+  const submissionText = document.getElementById(`submission_${assignmentId}`).value.trim();
+  const fileInput = document.getElementById(`submissionFiles_${assignmentId}`);
+  
+  if (!submissionText && (!fileInput.files || fileInput.files.length === 0)) {
+    alert("Please write your submission or upload files");
+    return;
+  }
+
+  const files = fileInput.files ? handleFileUpload(fileInput.files) : [];
+
+  const submission = {
+    id: Date.now(),
+    assignmentId,
+    studentId: currentUser.id,
+    studentName: currentUser.name,
+    content: submissionText,
+    files: files,
+    submittedAt: new Date().toLocaleString(),
+    grade: null
+  };
+
+  submissions.push(submission);
+  saveSubmissions();
+  loadStudentAssignments();
+}
+
+function loadNotesCourses() {
+  const select = document.getElementById("notesCourse");
+  const teacherCourses = courses.filter(c => c.teacherId === currentUser.id);
+  
+  select.innerHTML = '<option value="">Select Course</option>' + 
+    teacherCourses.map(course => `<option value="${course.id}">${course.title}</option>`).join('');
+}
+
+function addTeacherNote() {
+  const courseId = document.getElementById("notesCourse").value;
+  const title = document.getElementById("teacherNoteTitle").value.trim();
+  const content = document.getElementById("teacherNoteContent").value.trim();
+  const fileInput = document.getElementById("noteFiles");
+
+  if (!courseId || !title || !content) {
+    alert("Please fill in all note fields");
+    return;
+  }
+
+  const course = courses.find(c => c.id == courseId);
+  const files = fileInput.files ? handleFileUpload(fileInput.files) : [];
+
+  const note = {
+    id: Date.now(),
+    courseId: parseInt(courseId),
+    courseName: course.title,
+    title,
+    content,
+    teacherId: currentUser.id,
+    teacherName: currentUser.name,
+    files: files,
+    createdAt: new Date().toLocaleString()
+  };
+
+  teacherNotes.push(note);
+  saveTeacherNotes();
+  
+  document.getElementById("notesCourse").value = "";
+  document.getElementById("teacherNoteTitle").value = "";
+  document.getElementById("teacherNoteContent").value = "";
+  document.getElementById("noteFiles").value = "";
+  document.getElementById("noteFileList").innerHTML = "";
+  
+  loadTeacherNotes();
+}
+
+function loadTeacherNotes() {
+  const myNotes = teacherNotes.filter(n => n.teacherId === currentUser.id);
+  const container = document.getElementById("teacherNotesList");
+  
+  if (myNotes.length === 0) {
+    container.innerHTML = "<p>No notes created yet.</p>";
+    return;
+  }
+
+  container.innerHTML = myNotes.map(note => {
+    const filesHtml = note.files && note.files.length > 0 ? 
+      `<div><strong>Files:</strong> ${note.files.map(f => f.name).join(', ')}</div>` : '';
+    
+    return `
+      <div class="note-item">
+        <h4>${note.title}</h4>
+        <p><strong>Course:</strong> ${note.courseName}</p>
+        <p>${note.content}</p>
+        ${filesHtml}
+        <p><small>Created: ${note.createdAt}</small></p>
+        <button class="btn-small btn-danger" onclick="deleteTeacherNote(${note.id})">Delete Note</button>
+      </div>
+    `;
+  }).join('');
+}
+
+function deleteTeacherNote(noteId) {
+  teacherNotes = teacherNotes.filter(n => n.id !== noteId);
+  saveTeacherNotes();
+  loadTeacherNotes();
+}
+
+function loadStudentCourseNotes() {
+  const container = document.getElementById("studentCourseNotesList");
+  
+  // Get enrolled course IDs
+  const enrolledCourseIds = enrollments
+    .filter(e => e.studentId === currentUser.id)
+    .map(e => e.courseId);
+  
+  // Get notes from enrolled courses
+  const availableNotes = teacherNotes.filter(n => enrolledCourseIds.includes(n.courseId));
+  
+  if (availableNotes.length === 0) {
+    container.innerHTML = "<p>No course notes available. Please enroll in courses first.</p>";
+    return;
+  }
+
+  container.innerHTML = availableNotes.map(note => {
+    const filesHtml = note.files && note.files.length > 0 ? 
+      `<div><strong>Files:</strong> ${note.files.map(f => 
+        `<button class="btn-small btn-success" onclick="downloadFile('${f.name}', '${f.type}')">${f.name}</button>`
+      ).join(' ')}</div>` : '';
+    
+    return `
+      <div class="note-item">
+        <h4>${note.title}</h4>
+        <p><strong>Course:</strong> ${note.courseName}</p>
+        <p><strong>Teacher:</strong> ${note.teacherName}</p>
+        <p>${note.content}</p>
+        ${filesHtml}
+        <p><small>Posted: ${note.createdAt}</small></p>
+      </div>
+    `;
+  }).join('');
+}
+
+function downloadFile(fileName, fileType) {
+  // Create a simple text file for demonstration
+  const content = `This is a simulated download of ${fileName}.\n\nIn a real application, this would download the actual file content.`;
+  const blob = new Blob([content], { type: 'text/plain' });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = fileName;
+  document.body.appendChild(a);
+  a.click();
+  window.URL.revokeObjectURL(url);
+  document.body.removeChild(a);
+}
+
+function deleteAssignment(assignmentId) {
+  assignments = assignments.filter(a => a.id !== assignmentId);
+  submissions = submissions.filter(s => s.assignmentId !== assignmentId);
+  saveAssignments();
+  saveSubmissions();
+  loadTeacherAssignments();
+}
+
+function showForgotPassword() {
+  document.getElementById("authContainer").style.display = "none";
+  document.getElementById("forgotPasswordContainer").style.display = "block";
+  document.getElementById("resetMsg").textContent = "";
+}
+
+function backToLogin() {
+  document.getElementById("authContainer").style.display = "block";
+  document.getElementById("forgotPasswordContainer").style.display = "none";
+  document.getElementById("otpSection").style.display = "none";
+  document.getElementById("resetEmail").value = "";
+  document.getElementById("otpCode").value = "";
+  document.getElementById("newPassword").value = "";
+  document.getElementById("resetMsg").textContent = "";
+}
+
+function generateOTP() {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+}
+
+function sendOTP() {
+  const email = document.getElementById("resetEmail").value.trim();
+  
+  if (!email) {
+    document.getElementById("resetMsg").textContent = "Please enter your email address";
+    document.getElementById("resetMsg").className = "";
+    return;
+  }
+
+  const user = users.find(u => u.email === email);
+  if (!user) {
+    document.getElementById("resetMsg").textContent = "Email not found in our system";
+    document.getElementById("resetMsg").className = "";
+    return;
+  }
+
+  const otp = generateOTP();
+  otpData = {
+    email: email,
+    otp: otp,
+    userId: user.id,
+    timestamp: Date.now()
+  };
+
+  // In a real application, you would send this OTP via email
+  // For demo purposes, we'll show it in an alert
+  alert(`Your OTP is: ${otp}\n\n(In a real application, this would be sent to your email)`);
+  
+  document.getElementById("otpSection").style.display = "block";
+  document.getElementById("resetMsg").textContent = "OTP sent! Please check your email and enter the code below.";
+  document.getElementById("resetMsg").className = "success-msg";
+}
+
+function verifyOTPAndReset() {
+  const enteredOTP = document.getElementById("otpCode").value.trim();
+  const newPassword = document.getElementById("newPassword").value.trim();
+  
+  if (!enteredOTP || !newPassword) {
+    document.getElementById("resetMsg").textContent = "Please enter both OTP and new password";
+    document.getElementById("resetMsg").className = "";
+    return;
+  }
+
+  if (!otpData.otp) {
+    document.getElementById("resetMsg").textContent = "Please request OTP first";
+    document.getElementById("resetMsg").className = "";
+    return;
+  }
+
+  // Check if OTP is expired (5 minutes)
+  if (Date.now() - otpData.timestamp > 5 * 60 * 1000) {
+    document.getElementById("resetMsg").textContent = "OTP has expired. Please request a new one.";
+    document.getElementById("resetMsg").className = "";
+    otpData = {};
+    return;
+  }
+
+  if (enteredOTP !== otpData.otp) {
+    document.getElementById("resetMsg").textContent = "Invalid OTP. Please try again.";
+    document.getElementById("resetMsg").className = "";
+    return;
+  }
+
+  // Update user password
+  const user = users.find(u => u.id === otpData.userId);
+  if (user) {
+    user.password = newPassword;
+    saveUsers();
+    
+    document.getElementById("resetMsg").textContent = "Password reset successful! You can now login with your new password.";
+    document.getElementById("resetMsg").className = "success-msg";
+    
+    // Clear OTP data
+    otpData = {};
+    
+    // Auto redirect to login after 2 seconds
+    setTimeout(() => {
+      backToLogin();
+    }, 2000);
+  }
+}
+
+function addNote() {
+  const title = document.getElementById("noteTitle").value.trim();
+  const content = document.getElementById("noteContent").value.trim();
+
+  if (!title || !content) {
+    alert("Please fill in both title and content");
+    return;
+  }
+
+  const note = {
+    id: Date.now(),
+    studentId: currentUser.id,
+    title,
+    content,
+    createdAt: new Date().toLocaleString()
+  };
+
+  notes.push(note);
+  saveNotes();
+  
+  document.getElementById("noteTitle").value = "";
+  document.getElementById("noteContent").value = "";
+  
+  loadStudentNotes();
+}
+
+function loadStudentNotes() {
+  const studentNotes = notes.filter(n => n.studentId === currentUser.id);
+  const container = document.getElementById("studentNotesList");
+  
+  if (studentNotes.length === 0) {
+    container.innerHTML = "<p>No notes created yet.</p>";
+    return;
+  }
+
+  container.innerHTML = studentNotes.map(note => `
+    <div class="note-item">
+      <h4>${note.title}</h4>
+      <p>${note.content}</p>
+      <p><small><strong>Created:</strong> ${note.createdAt}</small></p>
+      <button class="btn-small btn-danger" onclick="deleteNote(${note.id})">Delete Note</button>
+    </div>
+  `).join('');
+}
+
+function deleteNote(noteId) {
+  notes = notes.filter(n => n.id !== noteId);
+  saveNotes();
+  loadStudentNotes();
+}
+
+function loadSubmissions() {
+  const teacherAssignments = assignments.filter(a => a.teacherId === currentUser.id);
+  const teacherSubmissions = submissions.filter(s => 
+    teacherAssignments.some(a => a.id === s.assignmentId)
+  );
+  
+  const container = document.getElementById("teacherSubmissionsList");
+  
+  if (teacherSubmissions.length === 0) {
+    container.innerHTML = "<p>No submissions yet.</p>";
+    return;
+  }
+
+  container.innerHTML = teacherSubmissions.map(submission => {
+    const assignment = assignments.find(a => a.id === submission.assignmentId);
+    const filesHtml = submission.files && submission.files.length > 0 ? 
+      `<div><strong>Submitted Files:</strong> ${submission.files.map(f => `${f.name} (${(f.size / 1024).toFixed(1)} KB)`).join(', ')}</div>` : '';
+    
+    return `
+      <div class="submission-item">
+        <h4>${assignment.title}</h4>
+        <p><strong>Course:</strong> ${assignment.courseName}</p>
+        <p><strong>Student:</strong> ${submission.studentName}</p>
+        <p><strong>Submitted:</strong> ${submission.submittedAt}</p>
+        ${submission.content ? `
+          <p><strong>Text Content:</strong></p>
+          <div style="background: #f8f9fa; padding: 10px; border-radius: 5px; margin: 10px 0; border-left: 3px solid #007bff;">
+            ${submission.content}
+          </div>
+        ` : ''}
+        ${filesHtml}
+        ${submission.grade !== null ? 
+          `<p><strong>Grade:</strong> ${submission.grade}/${assignment.totalMarks || 100}</p>
+           <button class="btn-small btn-warning" onclick="updateGrade(${submission.id}, ${submission.grade})">Update Grade</button>` :
+          `<div>
+            <input type="number" class="grade-input" id="grade_${submission.id}" placeholder="Grade (0-${assignment.totalMarks || 100})" min="0" max="${assignment.totalMarks || 100}">
+            <button class="btn-small btn-success" onclick="gradeSubmission(${submission.id})">Grade</button>
+           </div>`
+        }
+      </div>
+    `;
+  }).join('');
+}
+
+function gradeSubmission(submissionId) {
+  const gradeInput = document.getElementById(`grade_${submissionId}`);
+  const grade = parseInt(gradeInput.value);
+  
+  const submission = submissions.find(s => s.id === submissionId);
+  const assignment = assignments.find(a => a.id === submission.assignmentId);
+  const maxMarks = assignment.totalMarks || 100;
+
+  if (isNaN(grade) || grade < 0 || grade > maxMarks) {
+    alert(`Please enter a valid grade between 0 and ${maxMarks}`);
+    return;
+  }
+
+  submission.grade = grade;
+  submission.gradedAt = new Date().toLocaleString();
+  saveSubmissions();
+  loadSubmissions();
+}
+
+function updateGrade(submissionId, currentGrade) {
+  const newGrade = prompt(`Update grade (current: ${currentGrade}/100):`, currentGrade);
+  
+  if (newGrade === null) return; // User cancelled
+  
+  const grade = parseInt(newGrade);
+  if (isNaN(grade) || grade < 0 || grade > 100) {
+    alert("Please enter a valid grade between 0 and 100");
+    return;
+  }
+
+  const submission = submissions.find(s => s.id === submissionId);
+  submission.grade = grade;
+  submission.gradedAt = new Date().toLocaleString();
+  saveSubmissions();
+  loadSubmissions();
+}
+
+function loadNotesCourses() {
+  const select = document.getElementById("notesCourse");
+  const teacherCourses = courses.filter(c => c.teacherId === currentUser.id);
+  
+  select.innerHTML = '<option value="">Select Course</option>' + 
+    teacherCourses.map(course => `<option value="${course.id}">${course.title}</option>`).join('');
+}
+
+function addTeacherNote() {
+  const courseId = document.getElementById("notesCourse").value;
+  const title = document.getElementById("teacherNoteTitle").value.trim();
+  const content = document.getElementById("teacherNoteContent").value.trim();
+  const fileInput = document.getElementById("noteFiles");
+
+  if (!courseId || !title || !content) {
+    alert("Please fill in all note fields");
+    return;
+  }
+
+  const course = courses.find(c => c.id == courseId);
+  const files = fileInput.files ? handleFileUpload(fileInput.files) : [];
+
+  const note = {
+    id: Date.now(),
+    courseId: parseInt(courseId),
+    courseName: course.title,
+    title,
+    content,
+    teacherId: currentUser.id,
+    teacherName: currentUser.name,
+    files: files,
+    createdAt: new Date().toLocaleString()
+  };
+
+  teacherNotes.push(note);
+  saveTeacherNotes();
+  
+  document.getElementById("notesCourse").value = "";
+  document.getElementById("teacherNoteTitle").value = "";
+  document.getElementById("teacherNoteContent").value = "";
+  document.getElementById("noteFiles").value = "";
+  document.getElementById("noteFileList").innerHTML = "";
+  
+  loadTeacherNotes();
+}
+
+function loadTeacherNotes() {
+  const myNotes = teacherNotes.filter(n => n.teacherId === currentUser.id);
+  const container = document.getElementById("teacherNotesList");
+  
+  if (myNotes.length === 0) {
+    container.innerHTML = "<p>No notes created yet.</p>";
+    return;
+  }
+
+  container.innerHTML = myNotes.map(note => {
+    const filesHtml = note.files && note.files.length > 0 ? 
+      `<div><strong>Files:</strong> ${note.files.map(f => f.name).join(', ')}</div>` : '';
+    
+    return `
+      <div class="note-item">
+        <h4>${note.title}</h4>
+        <p><strong>Course:</strong> ${note.courseName}</p>
+        <p>${note.content}</p>
+        ${filesHtml}
+        <p><small>Created: ${note.createdAt}</small></p>
+        <button class="btn-small btn-danger" onclick="deleteTeacherNote(${note.id})">Delete Note</button>
+      </div>
+    `;
+  }).join('');
+}
+
+function deleteTeacherNote(noteId) {
+  teacherNotes = teacherNotes.filter(n => n.id !== noteId);
+  saveTeacherNotes();
+  loadTeacherNotes();
+}
+
+function loadStudentCourseNotes() {
+  const container = document.getElementById("studentCourseNotesList");
+  
+  // Get enrolled course IDs
+  const enrolledCourseIds = enrollments
+    .filter(e => e.studentId === currentUser.id)
+    .map(e => e.courseId);
+  
+  // Get notes from enrolled courses
+  const availableNotes = teacherNotes.filter(n => enrolledCourseIds.includes(n.courseId));
+  
+  if (availableNotes.length === 0) {
+    container.innerHTML = "<p>No course notes available. Please enroll in courses first.</p>";
+    return;
+  }
+
+  container.innerHTML = availableNotes.map(note => {
+    const filesHtml = note.files && note.files.length > 0 ? 
+      `<div><strong>Files:</strong> ${note.files.map(f => 
+        `<button class="btn-small btn-success" onclick="downloadFile('${f.name}', '${f.type}')">${f.name}</button>`
+      ).join(' ')}</div>` : '';
+    
+    return `
+      <div class="note-item">
+        <h4>${note.title}</h4>
+        <p><strong>Course:</strong> ${note.courseName}</p>
+        <p><strong>Teacher:</strong> ${note.teacherName}</p>
+        <p>${note.content}</p>
+        ${filesHtml}
+        <p><small>Posted: ${note.createdAt}</small></p>
+      </div>
+    `;
+  }).join('');
+}
+
+function downloadFile(fileName, fileType) {
+  // Create a simple text file for demonstration
+  const content = `This is a simulated download of ${fileName}.\n\nIn a real application, this would download the actual file content.`;
+  const blob = new Blob([content], { type: 'text/plain' });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = fileName;
+  document.body.appendChild(a);
+  a.click();
+  window.URL.revokeObjectURL(url);
+  document.body.removeChild(a);
+}
+
+function deleteAssignment(assignmentId) {
+  assignments = assignments.filter(a => a.id !== assignmentId);
+  submissions = submissions.filter(s => s.assignmentId !== assignmentId);
+  saveAssignments();
+  saveSubmissions();
+  loadTeacherAssignments();
+}
+
+function showForgotPassword() {
+  document.getElementById("authContainer").style.display = "none";
+  document.getElementById("forgotPasswordContainer").style.display = "block";
+  document.getElementById("resetMsg").textContent = "";
+}
+
+function backToLogin() {
+  document.getElementById("authContainer").style.display = "block";
+  document.getElementById("forgotPasswordContainer").style.display = "none";
+  document.getElementById("otpSection").style.display = "none";
+  document.getElementById("resetEmail").value = "";
+  document.getElementById("otpCode").value = "";
+  document.getElementById("newPassword").value = "";
+  document.getElementById("resetMsg").textContent = "";
+}
+
+function generateOTP() {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+}
+
+function sendOTP() {
+  const email = document.getElementById("resetEmail").value.trim();
+  
+  if (!email) {
+    document.getElementById("resetMsg").textContent = "Please enter your email address";
+    document.getElementById("resetMsg").className = "";
+    return;
+  }
+
+  const user = users.find(u => u.email === email);
+  if (!user) {
+    document.getElementById("resetMsg").textContent = "Email not found in our system";
+    document.getElementById("resetMsg").className = "";
+    return;
+  }
+
+  const otp = generateOTP();
+  otpData = {
+    email: email,
+    otp: otp,
+    userId: user.id,
+    timestamp: Date.now()
+  };
+
+  // In a real application, you would send this OTP via email
+  // For demo purposes, we'll show it in an alert
+  alert(`Your OTP is: ${otp}\n\n(In a real application, this would be sent to your email)`);
+  
+  document.getElementById("otpSection").style.display = "block";
+  document.getElementById("resetMsg").textContent = "OTP sent! Please check your email and enter the code below.";
+  document.getElementById("resetMsg").className = "success-msg";
+}
+
+function verifyOTPAndReset() {
+  const enteredOTP = document.getElementById("otpCode").value.trim();
+  const newPassword = document.getElementById("newPassword").value.trim();
+  
+  if (!enteredOTP || !newPassword) {
+    document.getElementById("resetMsg").textContent = "Please enter both OTP and new password";
+    document.getElementById("resetMsg").className = "";
+    return;
+  }
+
+  if (!otpData.otp) {
+    document.getElementById("resetMsg").textContent = "Please request OTP first";
+    document.getElementById("resetMsg").className = "";
+    return;
+  }
+
+  // Check if OTP is expired (5 minutes)
+  if (Date.now() - otpData.timestamp > 5 * 60 * 1000) {
+    document.getElementById("resetMsg").textContent = "OTP has expired. Please request a new one.";
+    document.getElementById("resetMsg").className = "";
+    otpData = {};
+    return;
+  }
+
+  if (enteredOTP !== otpData.otp) {
+    document.getElementById("resetMsg").textContent = "Invalid OTP. Please try again.";
+    document.getElementById("resetMsg").className = "";
+    return;
+  }
+
+  // Update user password
+  const user = users.find(u => u.id === otpData.userId);
+  if (user) {
+    user.password = newPassword;
+    saveUsers();
+    
+    document.getElementById("resetMsg").textContent = "Password reset successful! You can now login with your new password.";
+    document.getElementById("resetMsg").className = "success-msg";
+    
+    // Clear OTP data
+    otpData = {};
+    
+    // Auto redirect to login after 2 seconds
+    setTimeout(() => {
+      backToLogin();
+    }, 2000);
+  }
+}
 </script>
-</body>
+
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98f01abff78ac508',t:'MTc2MDUzOTU3MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
